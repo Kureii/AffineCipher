@@ -252,14 +252,15 @@ Window {
                             onClicked: {
                                 var charRepeats = function(str) {
                                     for (var i=0; i < str.length; i++) {
-                                    if ( str.indexOf(str[i]) !== str.lastIndexOf(str[i]) ) {
-                                        return false; // repeats
-                                    }
+                                        if ( str.indexOf(str[i]) !== str.lastIndexOf(str[i]) ) {
+                                            return false; // repeats
+                                        }
                                     }
                                 return true;
                                 }
 
                                 var str = alphabetInput.text
+                                str = str.replace(" ", "")
                                 if(str.length > 8) {
                                     if(!keySens.checked){str = str.toUpperCase()}
                                     if (charRepeats(str)) {
@@ -272,7 +273,11 @@ Window {
                                         myDrawCircle.isUpper(keySens.checked)
                                         myDrawCircle.myAlpha(alphabetInput.text)
                                         circleDraw.close()
-                                        customMaxShift = str.length -1
+                                        if(str.indexOf("\n")==-1){
+                                            customMaxShift = str.length -1
+                                        }else{
+                                            customMaxShift = str.length -2
+                                        }
                                         circleDraw.width = 400
                                         circleDraw.height = 200
                                         warning.visible = false

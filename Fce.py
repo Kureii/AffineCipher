@@ -1,6 +1,5 @@
 from cairosvg import svg2png
 import math
-import re
 
 def Steps(string, steps):
     Lenght = len(string)
@@ -59,21 +58,29 @@ class Naive():
         self.spaceStr = spacesStr 
         self.shift = shift
         self.encode = encode
+
         #Solve spaces encode / decode
-        
-        self.spaceSolver()
+        self.spaceSolver() #ok
 
         #Make dict from string
         self.dicAbc = {}
         self.makeDict()
 
-        #Make inverse dict from string
-        self.dicAbcInverse = {}
-        self.inverseDict()
-
         #Make shifted dict from shift, encode and abcDic
         self.dicAbcShifted = {}
         self.shiftDict()
+
+        #Make inverse dict from string
+        self.dicAbcInverse = {}
+        if self.encode:
+            self.inverseDict(self.abc)
+        else:
+            shiftedAbc = ""
+            for i in self.dicAbcShifted:
+                shiftedAbc += self.dicAbcShifted[i]
+            self.inverseDict(shiftedAbc)
+            
+
 
         #Make list of index from input sting by dicAbcInverse
         self.indexList = []
@@ -81,7 +88,10 @@ class Naive():
 
         #Make output string from indexList by dicAbcShifted
         self.output = ""
-        self.index2str()
+        if encode:
+            self.index2str(self.dicAbcShifted)
+        else:
+            self.index2str(self.dicAbc)
 
         if not encode:
             self.spaceSolver(1)
@@ -97,22 +107,23 @@ class Naive():
             myDic[i] = self.abc[i]
         self.dicAbc = myDic
     
-    def inverseDict(self):
+    def inverseDict(self, abc):
         """Make dictionary from string ('char key' : 'int index')"""
         myDic = {}
-        for i in range(len(self.abc)):
-            myDic[self.abc[i]] = i
+        for i in range(len(abc)):
+            myDic[abc[i]] = i
         self.dicAbcInverse = myDic
 
     def spaceSolver(self, myPass = 0):
         """Replace spaces by spaceStr"""
         if self.encode:
-            self.string = re.sub(" ", self.spaceStr, self.string)
+            self.string = self.string.replace(" ", self.spaceStr)
         else:
             if myPass == 0:
-                self.string = re.sub(" ", "", self.string)
+                self.string = self.string.replace(" ", "")
             else:
-                self.output = re.sub(self.spaceStr, " ", self.output)
+                if self.spaceStr:
+                    self.output = self.output.replace(self.spaceStr, " ")
                     
                     
 
@@ -120,25 +131,13 @@ class Naive():
         """Shift dict key by shift value"""
         myLen = len(self.dicAbc)
         newDic = {}
-        if self.encode:
-            #encoding shift
-            j = 0
-            for i in range(myLen - self.shift ,myLen):
-                newDic[j] = self.dicAbc[i]
-                j += 1
-            for i in range(0, myLen - self.shift):
-                newDic[j]= self.dicAbc[i]
-                j += 1
-        else:
-            #decoding shift
-            j = 0
-            for i in range(myLen - self.shift):
-                newDic[j] = self.dicAbc[self.shift + i]
-                j += 1
-            for i in range(self.shift):
-                newDic[i+j] = self.dicAbc[i]
-                j += 0
-                
+        j = 0
+        for i in range(myLen - self.shift ,myLen):
+            newDic[j] = self.dicAbc[i]
+            j += 1
+        for i in range(0, myLen - self.shift):
+            newDic[j]= self.dicAbc[i]
+            j += 1
         self.dicAbcShifted = newDic
 
     def str2index(self):
@@ -148,13 +147,12 @@ class Naive():
             indexList.append(self.dicAbcInverse[i])
         self.indexList = indexList
     
-    def index2str(self):
-        """Make string from indexList by dicAbcShifted"""
+    def index2str(self,dic):
+        """Make string from indexList by dic"""
         string = ""
         for i in self.indexList:
-            string += self.dicAbcShifted[i]
+            string += dic[i]
         self.output = string
-
 
 
 class myValues():

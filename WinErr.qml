@@ -97,7 +97,7 @@ Window {
                         }
                         
                         Text {
-                            text: inputErr ? opTextErr : alphaErr
+                            text: inputErr ? opTextErr : (repErr ? errSpc : alphaErr)
                             font.pixelSize: 12
                             horizontalAlignment: Text.AlignLeft
                             verticalAlignment: Text.AlignVCenter
@@ -123,7 +123,7 @@ Window {
 
                     Label {
                         color: myCloseBtn
-                        text: inputErr? (textFileTab.currentIndex == 0 ? noTextErr : noFileErr) : noCharErr
+                        text: inputErr? (textFileTab.currentIndex == 0 ? noTextErr : noFileErr) : (repErr ? errRepeatChars : noCharErr)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.Wrap

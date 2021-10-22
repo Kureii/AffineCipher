@@ -35,14 +35,16 @@ Window {
     property string textEncode: "Encode"
     property string textDecode: "Decode"
     property string makeCircle: "Create custom alphabet"
-    property string alphabetHere: "Alphabet here (whitout end of line and comma)"
+    property string alphabetHere: "Alphabet here (whitout end of line and spaces)"
     property string textKeySensitive: "Key sensitive"
     property string makeAbc:"Create alphabet"
     property string abcWar: "Alphabet mustn't include duplicate chars."
-    property string abcWar2: "Alphabet must be longer than 8 chars"
+    property string abcWar2: "Alphabet must be longer than 9 chars"
     property string opTextErr: "Imput error"
     property string noFileErr: "Error: Input file missing." 
     property string noTextErr: "Error: Input text missing."
+    property string errRepeatChars: "Error: space chars are in input text."
+    property string errSpc: "Overlaying"
     property string alphaErr: "Alphabet overflow"
     property string noCharErr: "Char for spaces isn't includet in alphabet."
     property string makeCustomAlpha: "Back to make custom alphabet"
@@ -50,13 +52,21 @@ Window {
     property string whatYouDo: "What will you do?"
     property string whatDoTxt1: 'Char "'
     property string whatDoTxt2: '" is not includet in alphabet.'
+    property string titleSolution: "Solution"
+    property string alphabetText: "Alphabet:"
+    property string shiftText: "Shift:"
+    property string spcRepText: "Spaces replaced by:"
+    property string opText: "Open text:"
+    property string enText: "Encoded text:"
+    property string openText: ""
+    property string encodedText: ""
+    property string saveText: "Save"
 
     property int repairCount: 0
 
     property double basicMaxShift: 25.0
     property double extMaxShift: 35.0
     property double customMaxShift: 25.0
-    property double shift: 0.0
     property double mySpaces: 5.0
 
     property var abcList: ["a", "b"]
@@ -67,6 +77,7 @@ Window {
     property bool keySensitive: false
     property bool inputErr: false
     property bool spaceErr: false
+    property bool repErr: false
 
     readonly property color myUpperBar: "#1a1512"
     readonly property color myBackground: "#201e1b"
@@ -860,7 +871,7 @@ Window {
                                             Layout.fillHeight: true
                                             Layout.leftMargin: 20
                                             Layout.rightMargin: 20
-                                            value: shift
+                                            value: 1
 
                                             background: Rectangle {
                                                 x: shifter.leftPadding
@@ -970,7 +981,7 @@ Window {
                                                 anchors.fill: parent
                                                 radius: 8
                                             }
-                                            up.indicator: Rectangle {
+                                            down.indicator: Rectangle {
                                                 height: 20
                                                 width: 20
                                                 anchors.left: parent.left
@@ -979,12 +990,12 @@ Window {
                                                 anchors.leftMargin: 1
                                                 anchors.rightMargin: 44
                                                 radius: 8
-                                                color: spaceSpin.up.pressed ? myHighLighht : (spaceSpin.up.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
+                                                color: spaceSpin.down.pressed ? myHighLighht : (spaceSpin.down.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
                                                          myBackground2)
 
                                                 Rectangle {
                                                     width: 8
-                                                    color: spaceSpin.up.pressed ? myHighLighht : (spaceSpin.up.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) : 
+                                                    color: spaceSpin.down.pressed ? myHighLighht : (spaceSpin.down.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) : 
                                                             myBackground2)
                                                     anchors.right: parent.right
                                                     anchors.top: parent.top
@@ -1007,7 +1018,7 @@ Window {
                                                 }
                                             }
 
-                                            down.indicator: Rectangle {
+                                            up.indicator: Rectangle {
                                                 height: 20
                                                 width: 20
                                                 radius: 8
@@ -1016,12 +1027,12 @@ Window {
                                                 anchors.verticalCenter: parent.verticalCenter
                                                 anchors.leftMargin: 44
                                                 anchors.rightMargin: 1
-                                                color: spaceSpin.down.pressed ? myHighLighht : (spaceSpin.down.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
+                                                color: spaceSpin.up.pressed ? myHighLighht : (spaceSpin.up.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
                                                          myBackground2)
 
                                                 Rectangle {
                                                     width: 8
-                                                    color: spaceSpin.down.pressed ? myHighLighht : (spaceSpin.down.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
+                                                    color: spaceSpin.up.pressed ? myHighLighht : (spaceSpin.up.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
                                                              myBackground2)
                                                     anchors.left: parent.left
                                                     anchors.top: parent.top
@@ -1115,43 +1126,58 @@ Window {
                                                     spcStr = spcStr.toUpperCase()
                                                     if (repSpaces.text == "") {
                                                         spaceErr = false
-                                                    } else if (basicAlpha.search(spcStr)< 0) {
-                                                        spaceErr = true
-                                                        winErr.show()
                                                     } else {
-                                                        spaceErr = false
+                                                        for (var i = 0; i < spcStr.length; i++) {
+                                                            if (basicAlpha.search(spcStr[i] )< 0) {
+                                                                spaceErr = true
+                                                                winErr.show()
+                                                                break
+                                                            } else {
+                                                                spaceErr = false
+                                                            }
+                                                        }
                                                     }
                                                 } else if (choseAbcTab.currentIndex == 1) {
                                                     spcStr =spcStr.toUpperCase()
                                                     if (repSpaces.text == "") {
                                                         alphaErr = false
-                                                    } else if (extAlpha.search(spcStr)< 0) {
-                                                        spaceErr = true
-                                                        winErr.show()
                                                     } else {
-                                                        spaceErr = false
+                                                        for (var i = 0; i < spcStr.length; i++) {
+                                                            if (extAlpha.search(spcStr[i] )< 0) {
+                                                                spaceErr = true
+                                                                winErr.show()
+                                                                break
+                                                            } else {
+                                                                spaceErr = false
+                                                            }
+                                                        }
                                                     }
                                                 } else {
                                                     if (repSpaces.text == "") {
                                                         spaceErr = false
                                                     } else if (keySensitive) {
-                                                        if (customAlpha.search(repSpaces.text )< 0) {
-                                                            spaceErr = true
-                                                            winErr.show()
-                                                        } else {
-                                                            spaceErr = false
+                                                        for (var i = 0; i < spcStr.length; i++) {
+                                                            if (customAlpha.search(spcStr[i] )< 0) {
+                                                                spaceErr = true
+                                                                winErr.show()
+                                                                break
+                                                            } else {
+                                                                spaceErr = false
+                                                            }
                                                         }
                                                     } else {
                                                         spcStr = spcStr.toUpperCase()
-                                                        if (customAlpha.search(repSpaces.text )< 0) {
-                                                            spaceErr = true
-                                                            winErr.show()
-                                                        } else {
-                                                            spaceErr = false
+                                                        for (var i = 0; i < spcStr.length; i++) {
+                                                            if (customAlpha.search(spcStr[i] )< 0) {
+                                                                spaceErr = true
+                                                                winErr.show()
+                                                                break
+                                                            } else {
+                                                                spaceErr = false
+                                                            }
                                                         }
                                                     }
                                                 }
-                                                
                                                 if (!spaceErr) {
                                                 
                                                     if (!inputErr) {
@@ -1193,19 +1219,43 @@ Window {
                                                                 myData.getInput(fileDialog.currentFile)
                                                             }
                                                         }
-                                                        myData.getShift(shifter.value)
-                                                        myData.getRepSpaces(spcStr)
-                                                        myData.getOutputSpaces(spaceSpin.value)
-                                                        myData.encode()
-                                                        if (repairCount > 0) {
+                                                         
+                                                        if (openText.indexOf(spcStr) < 0 || spcStr == ""){
+                                                            repErr = false
+                                                            if (!inputErr){
+                                                                myData.getShift(shifter.value)
+                                                                myData.getRepSpaces(spcStr)
+                                                                myData.getOutputSpaces(spaceSpin.value)
+                                                                myData.encode()
+                                                                if (repairCount > 0) {
+                                                                    activeWindow = false
+                                                                    var component = Qt.createComponent("Repair.qml")
+                                                                    var win = component.createObject()
+                                                                    win.crComp()
+                                                                } else {
+                                                                    mySpaces = 5.0
+                                                                    abcList = ["a", "b"]
+                                                                    badChar = ["@", "&"]
+                                                                    inputFile = ""
+                                                                    winSol.show()
+                                                                    activeWindow = false
+                                                                    
+                                                                }
+                                                            }
+                                                        } else {
+                                                            openText = ""
+                                                            repErr = true
                                                             activeWindow = false
-                                                            var component = Qt.createComponent("Repair.qml")
-                                                            var win = component.createObject()
-                                                            win.crComp()
+                                                            winErr.show()
                                                         }
                                                     }
                                                 }
                                             }
+                                        }
+
+                                        WinSol {
+                                            id: winSol
+                                            visible: false
                                         }
 
                                         Button {
@@ -1254,75 +1304,63 @@ Window {
                                             }
                                             onClicked: {
                                                 var spcStr = repSpaces.text
-
                                                 if(choseAbcTab.currentIndex == 0){
-                                                    spcStr =spcStr.toUpperCase()
+                                                    spcStr = spcStr.toUpperCase()
                                                     if (repSpaces.text == "") {
                                                         spaceErr = false
-                                                    } else if (basicAlpha.search(spcStr)< 0) {
-                                                        spaceErr = true
-                                                        winErr.show()
                                                     } else {
-                                                        spaceErr = false
+                                                        for (var i = 0; i < spcStr.length; i++) {
+                                                            if (basicAlpha.search(spcStr[i] )< 0) {
+                                                                spaceErr = true
+                                                                winErr.show()
+                                                                break
+                                                            } else {
+                                                                spaceErr = false
+                                                            }
+                                                        }
                                                     }
                                                 } else if (choseAbcTab.currentIndex == 1) {
                                                     spcStr =spcStr.toUpperCase()
                                                     if (repSpaces.text == "") {
                                                         alphaErr = false
-                                                    } else if (extAlpha.search(spcStr)< 0) {
-                                                        spaceErr = true
-                                                        winErr.show()
                                                     } else {
-                                                        spaceErr = false
+                                                        for (var i = 0; i < spcStr.length; i++) {
+                                                            if (extAlpha.search(spcStr[i] )< 0) {
+                                                                spaceErr = true
+                                                                winErr.show()
+                                                                break
+                                                            } else {
+                                                                spaceErr = false
+                                                            }
+                                                        }
                                                     }
                                                 } else {
                                                     if (repSpaces.text == "") {
                                                         spaceErr = false
                                                     } else if (keySensitive) {
-                                                        if (customAlpha.search(repSpaces.text )< 0) {
-                                                            spaceErr = true
-                                                            winErr.show()
-                                                        } else {
-                                                            spaceErr = false
+                                                        for (var i = 0; i < spcStr.length; i++) {
+                                                            if (customAlpha.search(spcStr[i] )< 0) {
+                                                                spaceErr = true
+                                                                winErr.show()
+                                                                break
+                                                            } else {
+                                                                spaceErr = false
+                                                            }
                                                         }
                                                     } else {
                                                         spcStr = spcStr.toUpperCase()
-                                                        if (customAlpha.search(repSpaces.text )< 0) {
-                                                            spaceErr = true
-                                                            winErr.show()
-                                                        } else {
-                                                            spaceErr = false
+                                                        for (var i = 0; i < spcStr.length; i++) {
+                                                            if (customAlpha.search(spcStr[i] )< 0) {
+                                                                spaceErr = true
+                                                                winErr.show()
+                                                                break
+                                                            } else {
+                                                                spaceErr = false
+                                                            }
                                                         }
                                                     }
                                                 }
-                                                
                                                 if (!spaceErr) {
-                                                    if (textFileTab.currentIndex == 0) {
-                                                        if(!inputText.text) {
-                                                            inputErr = true
-                                                            winErr.show()
-                                                            activeWindow = false
-                                                        } else {
-                                                            inputErr == false
-                                                            myData.getInputIndex(false)
-                                                            var myInput = inputText.text
-                                                            if (choseAbcTab < 2 || keySensitive == false) {
-                                                                myInput = myInput.toUpperCase()
-                                                            }
-                                                            myData.getInput(myInput)
-                                                        }
-                                                    } else {
-                                                        var inputFile = String(fileDialog.currentFile)
-                                                        if (!inputFile.length) {
-                                                            inputErr = true
-                                                            winErr.show()
-                                                            activeWindow= false
-                                                        } else {
-                                                            inputErr = false
-                                                            myData.getInputIndex(true)
-                                                            myData.getInput(fileDialog.currentFile)
-                                                        }
-                                                    }
                                                 
                                                     if (!inputErr) {
                                                         if (naiveModernTab.currentIndex == 0) {
@@ -1337,10 +1375,46 @@ Window {
                                                         } else {
                                                             myData.getAbc(customAlpha)
                                                         }
-                                                        myData.getShift(shifter.value)
-                                                        myData.getRepSpaces(spcStr)
-                                                        myData.getOutputSpaces(spaceSpin.value)
-                                                        myData.decode()
+                                                        if (textFileTab.currentIndex == 0) {
+                                                            if(!inputText.text) {
+                                                                inputErr = true
+                                                                winErr.show()
+                                                                activeWindow = false
+                                                            } else {
+                                                                inputErr == false
+                                                                myData.getInputIndex(false)
+                                                                var myInput = inputText.text
+                                                                if (choseAbcTab < 2 || keySensitive == false) {
+                                                                    myInput = myInput.toUpperCase()
+                                                                }
+                                                                myData.getInput(myInput)
+                                                            }
+                                                        } else {
+                                                            var inputFile = String(fileDialog.currentFile)
+                                                            if (!inputFile.length) {
+                                                                inputErr = true
+                                                                winErr.show()
+                                                                activeWindow= false
+                                                            } else {
+                                                                inputErr = false
+                                                                myData.getInputIndex(true)
+                                                                myData.getInput(fileDialog.currentFile)
+                                                            }
+                                                        }
+                                                        if (!inputErr){
+                                                            myData.getShift(shifter.value)
+                                                            myData.getRepSpaces(spcStr)
+                                                            myData.getOutputSpaces(spaceSpin.value)
+                                                            myData.decode()
+                                                            winSol.show()
+                                                        
+                                                            mySpaces = 5.0
+                                                            abcList = ["a", "b"]
+                                                            badChar = ["@", "&"]
+                                                            inputFile = ""
+                                                            activeWindow = false
+                                                        
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1423,6 +1497,18 @@ Window {
 
             function onIllegalChars(ilCh) {
                 badChar = ilCh
+            }
+
+            function onFinalAbc(FAbc) {
+                customAlpha = FAbc
+            }
+
+            function onOpenText(opT) {
+                openText = opT
+            }
+
+            function onEncodeText(enT) {
+                encodedText = enT
             }
         }
     }    
