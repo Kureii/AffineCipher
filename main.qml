@@ -9,7 +9,7 @@ Window {
     id: mainWindow
     visible: true
     width: 800
-    height: 600
+    height: 610
     color: "transparent"
 
     flags: Qt.Window | Qt.WindowMinimizeButtonHint | Qt.FramelessWindowHint
@@ -113,13 +113,14 @@ Window {
                 id: windowLayout
                 anchors.fill: parent
                 rowSpacing: 0
-                columns: 1
+                columns: 2
                 columnSpacing: 2
 
                 Rectangle {
                     id: upperBar
                     color: myUpperBar
                     radius: 8
+                    Layout.columnSpan: 2
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
                     Layout.maximumHeight: 30
                     Layout.minimumHeight: 30
@@ -283,7 +284,7 @@ Window {
                     Layout.rightMargin: 4
                     Layout.leftMargin: 4
                     Layout.rowSpan: 1
-                    Layout.columnSpan: 1
+                    Layout.columnSpan: 2
                     Layout.alignment: Qt.AlignLeft | Qt.AlignTop
                     Layout.fillHeight: false
                     Layout.fillWidth: true
@@ -307,6 +308,7 @@ Window {
                     height: 35
                     enabled: activeWindow
                     position: TabBar.Footer
+                    Layout.columnSpan: 2
                     font.family: "Roboto Medium"
                     Layout.rightMargin: 4
                     Layout.leftMargin: 4
@@ -379,6 +381,7 @@ Window {
                     text: choseAbc
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
+                    Layout.columnSpan: 2
                     padding: 8
                     Layout.fillWidth: true
                     font.weight: Font.Medium
@@ -392,6 +395,7 @@ Window {
                     height: 35
                     enabled: activeWindow
                     position: TabBar.Footer
+                    Layout.columnSpan: 2
                     font.family: "Roboto Medium"
                     Layout.rightMargin: 4
                     Layout.leftMargin: 4
@@ -497,939 +501,949 @@ Window {
                     }
                 }
 
+
+                
+
+                Label {
+                    text: choseAbcTab.currentIndex == 1 ? extAlpha :
+                        (choseAbcTab.currentIndex == 2 && customAlpha != "" ? customAlpha : basicAlpha)
+                    font.letterSpacing: 5
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.fillHeight: true
+                    font.family: "Poppins Medium"
+                    Layout.columnSpan: 2
+                }
+
                 StackLayout {
-                    id: stackLayout
-                    Layout.topMargin: 8
-                    Layout.bottomMargin: 8
-                    Layout.rightMargin: 8
-                    Layout.leftMargin: 8
-                    currentIndex: naiveModernTab.currentIndex
+                    Layout.leftMargin: 14
+                    Layout.topMargin: -6
+                    currentIndex: choseAbcTab.currentIndex
+                    visible: naiveModernTab.currentIndex == 0? true : false
+                    Layout.bottomMargin: 12
+                    Layout.minimumWidth: 250
+                    Layout.fillHeight: true
+                    Layout.fillWidth: false
 
-                    RowLayout {
-                        width: 100
-                        height: 100
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
+                    Rectangle {
+                        width: 400
+                        height: 200
+                        color: "transparent"
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        Layout.minimumWidth: 250
 
-                        StackLayout {
-                            Layout.leftMargin: 6
-                            currentIndex: choseAbcTab.currentIndex
-                            Layout.minimumWidth: 250
-                            Layout.fillHeight: true
-                            Layout.fillWidth: false
+                        Image {
+                            anchors.fill: parent
+                            source: "icons/BasicBigCircle.png"
+                            antialiasing: true
+                            fillMode: Image.PreserveAspectFit
 
-                            Rectangle {
-                                width: 400
-                                height: 200
-                                color: "transparent"
-                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                Layout.minimumWidth: 250
-
-                                Image {
-                                    anchors.fill: parent
-                                    source: "icons/BasicBigCircle.png"
-                                    antialiasing: true
-                                    fillMode: Image.PreserveAspectFit
-
-                                    Image {
-                                        id: basicCircle
-                                        width: 300
-                                        height: 300
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        source: "icons/BasicSmallCircle.png"
-                                        antialiasing: true
-                                        rotation: (360 / (basicMaxShift + 1) * shifter.value - 2)
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        sourceSize.height: 300
-                                        sourceSize.width: 300
-                                        fillMode: Image.Pad
-                                    }
-                                }
-                            }
-
-                            Rectangle {
-                                width: 400
-                                height: 200
-                                color: "transparent"
-                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                Layout.minimumWidth: 250
-
-                                Image {
-                                    anchors.fill: parent
-                                    source: "icons/ExtBigCircle.png"
-                                    antialiasing: true
-                                    fillMode: Image.PreserveAspectFit
-
-                                    Image {
-                                        id: extCircle
-                                        width: 300
-                                        height: 300
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        source: "icons/ExtSmallCircle.png"
-                                        antialiasing: true
-                                        rotation: (360 / (extMaxShift + 1) * shifter.value - 2)
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        sourceSize.height: 300
-                                        sourceSize.width: 300
-                                        fillMode: Image.Pad
-                                    }
-                                }
-                            }
-
-                            Rectangle {
-                                width: 400
-                                height: 200
-                                color: "transparent"
-                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                Layout.minimumWidth: 250
-
-                                Image {
-                                    id: customCircleBig
-                                    cache: false
-                                    asynchronous:true
-                                    anchors.fill: parent
-                                    source: "icons/BasicBigCircle.png"
-                                    antialiasing: true
-                                    fillMode: Image.PreserveAspectFit
-
-                                    Button {
-                                        width: 150
-                                        height: 150
-                                        enabled: activeWindow
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        z: 2
-                                        onClicked: {
-                                            activeWindow = false
-                                            circleDraw.show()
-                                        }
-                                        background: Rectangle {
-                                            color: parent.down ? myHighLighht : (parent.hovered && activeWindow ? Qt.lighter(myBackground, 2) : myBackground)
-                                            radius: parent.width / 2
-                                        }
-
-                                        Label {
-                                            text: makeCircle
-                                            anchors.fill: parent
-                                            font.pixelSize: 12
-                                            horizontalAlignment: Text.AlignHCenter
-                                            verticalAlignment: Text.AlignVCenter
-                                            font.family: "Roboto Medium"
-                                            font.weight: Font.Medium
-                                            color: parent.down ? myUpperBar : myWhiteFont
-                                            padding: 8
-                                        }
-                                    }
-
-                                    Image {
-                                        id: customCircle
-                                        width: 300
-                                        height: 300
-                                        cache: false
-                                        asynchronous:true
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        source: "icons/BasicSmallCircle.png"
-                                        antialiasing: true
-                                        rotation: (360 / (customMaxShift + 1) * shifter.value - 2)
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        sourceSize.height: 300
-                                        sourceSize.width: 300
-                                        fillMode: Image.Pad
-                                    }
-                                }
-                            }
-
-                            CircleDraw {
-                                id: circleDraw
-                                visible: false
+                            Image {
+                                id: basicCircle
+                                width: 300
+                                height: 300
+                                anchors.verticalCenter: parent.verticalCenter
+                                source: "icons/BasicSmallCircle.png"
+                                antialiasing: true
+                                rotation: (360 / (basicMaxShift + 1) * shifter.value - 2)
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                sourceSize.height: 300
+                                sourceSize.width: 300
+                                fillMode: Image.Pad
                             }
                         }
-                        Rectangle {
-                            id: rectangle2
+                    }
+
+                    Rectangle {
+                        width: 400
+                        height: 200
+                        color: "transparent"
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        Layout.minimumWidth: 250
+
+                        Image {
+                            anchors.fill: parent
+                            source: "icons/ExtBigCircle.png"
+                            antialiasing: true
+                            fillMode: Image.PreserveAspectFit
+
+                            Image {
+                                id: extCircle
+                                width: 300
+                                height: 300
+                                anchors.verticalCenter: parent.verticalCenter
+                                source: "icons/ExtSmallCircle.png"
+                                antialiasing: true
+                                rotation: (360 / (extMaxShift + 1) * shifter.value - 2)
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                sourceSize.height: 300
+                                sourceSize.width: 300
+                                fillMode: Image.Pad
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: 400
+                        height: 200
+                        color: "transparent"
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        Layout.minimumWidth: 250
+
+                        Image {
+                            id: customCircleBig
+                            cache: false
+                            asynchronous:true
+                            anchors.fill: parent
+                            source: "icons/BasicBigCircle.png"
+                            antialiasing: true
+                            fillMode: Image.PreserveAspectFit
+
+                            Button {
+                                width: 150
+                                height: 150
+                                enabled: activeWindow
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                z: 2
+                                onClicked: {
+                                    activeWindow = false
+                                    circleDraw.show()
+                                }
+                                background: Rectangle {
+                                    color: parent.down ? myHighLighht : (parent.hovered && activeWindow ? Qt.lighter(myBackground, 2) : myBackground)
+                                    radius: parent.width / 2
+                                }
+
+                                Label {
+                                    text: makeCircle
+                                    anchors.fill: parent
+                                    font.pixelSize: 12
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.family: "Roboto Medium"
+                                    font.weight: Font.Medium
+                                    color: parent.down ? myUpperBar : myWhiteFont
+                                    padding: 8
+                                }
+                            }
+
+                            Image {
+                                id: customCircle
+                                width: 300
+                                height: 300
+                                cache: false
+                                asynchronous:true
+                                anchors.verticalCenter: parent.verticalCenter
+                                source: "icons/BasicSmallCircle.png"
+                                antialiasing: true
+                                rotation: (360 / (customMaxShift + 1) * shifter.value - 2)
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                sourceSize.height: 300
+                                sourceSize.width: 300
+                                fillMode: Image.Pad
+                            }
+                        }
+                    }
+
+                    CircleDraw {
+                        id: circleDraw
+                        visible: false
+                    }
+                }        
+                Rectangle {
+                    width: 200
+                    height: 200
+                    color: "transparent"
+                    Layout.fillWidth: true
+                    Layout.bottomMargin: 10
+                    Layout.rightMargin: 8
+                    Layout.minimumWidth: 300
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.fillHeight: true
+
+                    ColumnLayout {
+                        anchors.fill: parent
+                        anchors.rightMargin: 4
+                        anchors.topMargin: 0
+                        anchors.leftMargin: 2
+
+                        StackLayout {
+                            id: stackView
                             width: 200
-                            height: 200
-                            color: "transparent"
-                            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                            Layout.minimumWidth: 200
-                            Layout.fillHeight: true
+                            height: 100
+                            Layout.minimumHeight: 100
+                            Layout.maximumHeight: 100
                             Layout.fillWidth: true
+                            Layout.fillHeight: false
+                            currentIndex: textFileTab.currentIndex
+
+                            Flickable {
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+                                TextArea.flickable: TextArea {
+                                    id: inputText
+                                    visible: true
+                                    selectByMouse: true
+                                    color: myWhiteFont
+                                    enabled: activeWindow
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    wrapMode: Text.WrapAnywhere
+                                    textFormat: Text.AutoText
+                                    placeholderTextColor: Qt.darker(myWhiteFont, 2)
+                                    font.family: "Roboto Medium"
+                                    font.hintingPreference: Font.PreferFullHinting
+                                    font.capitalization: choseAbcTab.currentIndex == 2 && keySensitive ? Font.MixedCase : Font.AllUppercase
+                                    placeholderText: textHere
+                                    background: Rectangle {
+                                        color: myBackground
+                                        radius: 8
+                                    }
+                                }
+
+                                ScrollBar.vertical: ScrollBar {}
+                            }
 
                             ColumnLayout {
-                                anchors.fill: parent
-                                anchors.rightMargin: 4
-                                anchors.topMargin: 12
-                                anchors.leftMargin: 2
+                                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
 
-                                StackLayout {
-                                    id: stackView
-                                    width: 200
-                                    height: 100
-                                    Layout.minimumHeight: 100
-                                    Layout.maximumHeight: 100
+                                Button {
+                                    id: btnChoseFile
+                                    enabled: activeWindow
+                                    Layout.topMargin: 16
+                                    Layout.fillHeight: true
                                     Layout.fillWidth: true
-                                    Layout.fillHeight: false
-                                    currentIndex: textFileTab.currentIndex
-
-                                    Flickable {
-                                        Layout.fillHeight: true
-                                        Layout.fillWidth: true
-                                        TextArea.flickable: TextArea {
-                                            id: inputText
-                                            visible: true
-                                            selectByMouse: true
-                                            color: myWhiteFont
-                                            enabled: activeWindow
-                                            horizontalAlignment: Text.AlignHCenter
-                                            verticalAlignment: Text.AlignVCenter
-                                            wrapMode: Text.WrapAnywhere
-                                            textFormat: Text.AutoText
-                                            placeholderTextColor: Qt.darker(myWhiteFont, 2)
-                                            font.family: "Roboto Medium"
-                                            font.hintingPreference: Font.PreferFullHinting
-                                            font.capitalization: choseAbcTab.currentIndex == 2 && keySensitive ? Font.MixedCase : Font.AllUppercase
-                                            placeholderText: textHere
-                                            background: Rectangle {
-                                                color: myBackground
-                                                radius: 8
-                                            }
-                                        }
-
-                                        ScrollBar.vertical: ScrollBar {}
-                                    }
-
-                                    ColumnLayout {
-                                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-
-                                        Button {
-                                            id: btnChoseFile
-                                            enabled: activeWindow
-                                            Layout.topMargin: 16
-                                            Layout.fillHeight: true
-                                            Layout.fillWidth: true
-                                            background: Rectangle {
-                                                anchors.fill: parent
-                                                color: btnChoseFile.down ? myHighLighht : (btnChoseFile.hovered && activeWindow ? Qt.lighter(myBackground, 2) : myBackground)
-                                                radius: 8
-
-                                                Label {
-                                                    text: buttonChoseFile
-                                                    anchors.fill: parent
-                                                    horizontalAlignment: Text.AlignHCenter
-                                                    verticalAlignment: Text.AlignVCenter
-                                                    font.family: "Roboto Medium"
-                                                    color: myWhiteFont
-                                                }
-                                            }
-                                            onClicked: fileDialog.visible = true
-                                        }
-
+                                    background: Rectangle {
+                                        anchors.fill: parent
+                                        color: btnChoseFile.down ? myHighLighht : (btnChoseFile.hovered && activeWindow ? Qt.lighter(myBackground, 2) : myBackground)
+                                        radius: 8
 
                                         Label {
-                                            id: fileState
-                                            Layout.fillWidth: true
-                                            text: textChoseFile
+                                            text: buttonChoseFile
+                                            anchors.fill: parent
                                             horizontalAlignment: Text.AlignHCenter
                                             verticalAlignment: Text.AlignVCenter
-                                            topPadding: 8
-                                            bottomPadding: 16
-                                            font.family: "Poppins Medium"
-                                            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                                            color: myUpperBar
+                                            font.family: "Roboto Medium"
+                                            color: myWhiteFont
                                         }
-                                        
                                     }
-                        
+                                    onClicked: fileDialog.visible = true
                                 }
 
-                                TabBar {
-                                    id: textFileTab
-                                    width: 240
-                                    height: 35
-                                    enabled: activeWindow
-                                    position: TabBar.Footer
-                                    font.family: "Roboto Medium"
-                                    Layout.topMargin: -8
-                                    Layout.rightMargin: 4
-                                    Layout.leftMargin: 4
-                                    Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+
+                                Label {
+                                    id: fileState
                                     Layout.fillWidth: true
+                                    text: textChoseFile
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    topPadding: 8
+                                    bottomPadding: 16
+                                    font.family: "Poppins Medium"
+                                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                    color: myUpperBar
+                                }
+                                
+                            }
+                
+                        }
 
-                                    TabButton {
-                                        id: textButtno
-                                        anchors.top: parent.top
-                                        anchors.bottom: parent.bottom
-                                        bottomPadding: 18
-                                        padding: 8
-                                        background: Rectangle {
-                                            color: textButtno.hovered
-                                                   && activeWindow ? Qt.darker(myBackground2, 1.25) : myBackground2
-                                            anchors.fill: parent
-                                            Label {
-                                                text: textFile
-                                                anchors.verticalCenter: parent.verticalCenter
-                                                font.weight: Font.Medium
-                                                font.family: "Poppins Medium"
-                                                anchors.verticalCenterOffset: textFileTab.currentIndex == 0 ? 2 : 0
-                                                anchors.horizontalCenter: parent.horizontalCenter
-                                                color: textButtno.hovered
-                                                       && activeWindow ? Qt.darker(myWhiteFont, 1.25) : myUpperBar
-                                            }
+                        TabBar {
+                            id: textFileTab
+                            width: 240
+                            height: 35
+                            enabled: activeWindow
+                            position: TabBar.Footer
+                            font.family: "Roboto Medium"
+                            Layout.topMargin: -6
+                            Layout.rightMargin: 4
+                            Layout.leftMargin: 4
+                            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+                            Layout.fillWidth: true
 
-                                            Rectangle {
-                                                height: 4
-                                                color: textFileTab.currentIndex == 0 ? myHighLighht : (textButtno.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) : 
-                                                        myBackground2)
-                                                radius: 4
-                                                anchors.left: parent.left
-                                                anchors.right: parent.right
-                                                anchors.top: parent.top
-                                                anchors.rightMargin: 0
-                                                anchors.leftMargin: 0
-                                                anchors.topMargin: 0
-                                                Rectangle {
-                                                    height: 1
-                                                    color: textFileTab.currentIndex == 0 ? myHighLighht : (textButtno.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
-                                                             myBackground2)
-                                                    anchors.left: parent.left
-                                                    anchors.right: parent.right
-                                                    anchors.top: parent.top
-                                                    anchors.rightMargin: 0
-                                                    anchors.leftMargin: 0
-                                                    anchors.topMargin: 0
-                                                }
-                                            }
-                                        }
+                            TabButton {
+                                id: textButtno
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                bottomPadding: 18
+                                padding: 8
+                                background: Rectangle {
+                                    color: textButtno.hovered
+                                            && activeWindow ? Qt.darker(myBackground2, 1.25) : myBackground2
+                                    anchors.fill: parent
+                                    Label {
+                                        text: textFile
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        font.weight: Font.Medium
+                                        font.family: "Poppins Medium"
+                                        anchors.verticalCenterOffset: textFileTab.currentIndex == 0 ? 2 : 0
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        color: textButtno.hovered
+                                                && activeWindow ? Qt.darker(myWhiteFont, 1.25) : myUpperBar
                                     }
 
-                                    TabButton {
-                                        id: fileButton
+                                    Rectangle {
+                                        height: 4
+                                        color: textFileTab.currentIndex == 0 ? myHighLighht : (textButtno.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) : 
+                                                myBackground2)
+                                        radius: 4
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
                                         anchors.top: parent.top
-                                        anchors.bottom: parent.bottom
-                                        bottomPadding: 18
-                                        padding: 8
-                                        background: Rectangle {
-                                            color: fileButton.hovered
-                                                   && activeWindow ? Qt.darker(myBackground2, 1.25) : myBackground2
-                                            anchors.fill: parent
-                                            Label {
-                                                text: fileText
-                                                anchors.verticalCenter: parent.verticalCenter
-                                                font.weight: Font.Medium
-                                                font.family: "Poppins Medium"
-                                                anchors.verticalCenterOffset: textFileTab.currentIndex == 1 ? 2 : 0
-                                                anchors.horizontalCenter: parent.horizontalCenter
-                                                color: fileButton.hovered
-                                                       && activeWindow ? Qt.darker(myWhiteFont, 1.25) : myUpperBar
-                                            }
-
-                                            Rectangle {
-                                                height: 4
-                                                color: textFileTab.currentIndex == 1 ? myHighLighht : (fileButton.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) : 
+                                        anchors.rightMargin: 0
+                                        anchors.leftMargin: 0
+                                        anchors.topMargin: 0
+                                        Rectangle {
+                                            height: 1
+                                            color: textFileTab.currentIndex == 0 ? myHighLighht : (textButtno.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
                                                         myBackground2)
-                                                anchors.left: parent.left
-                                                anchors.right: parent.right
-                                                anchors.top: parent.top
-                                                anchors.rightMargin: 0
-                                                anchors.leftMargin: 0
-                                                anchors.topMargin: 0
-                                            }
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
+                                            anchors.top: parent.top
+                                            anchors.rightMargin: 0
+                                            anchors.leftMargin: 0
+                                            anchors.topMargin: 0
                                         }
                                     }
                                 }
+                            }
 
-                                ColumnLayout {
+                            TabButton {
+                                id: fileButton
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                bottomPadding: 18
+                                padding: 8
+                                background: Rectangle {
+                                    color: fileButton.hovered
+                                            && activeWindow ? Qt.darker(myBackground2, 1.25) : myBackground2
+                                    anchors.fill: parent
+                                    Label {
+                                        text: fileText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        font.weight: Font.Medium
+                                        font.family: "Poppins Medium"
+                                        anchors.verticalCenterOffset: textFileTab.currentIndex == 1 ? 2 : 0
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        color: fileButton.hovered
+                                                && activeWindow ? Qt.darker(myWhiteFont, 1.25) : myUpperBar
+                                    }
+
+                                    Rectangle {
+                                        height: 4
+                                        color: textFileTab.currentIndex == 1 ? myHighLighht : (fileButton.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) : 
+                                                myBackground2)
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.top: parent.top
+                                        anchors.rightMargin: 0
+                                        anchors.leftMargin: 0
+                                        anchors.topMargin: 0
+                                    }
+                                }
+                            }
+                        }
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                Layout.maximumHeight: 40
+                                spacing: 0
+
+                                Label {
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    text: textShift + shifter.value
+                                    font.pixelSize: 12
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.family: "Poppins Medium"
+                                    color: myUpperBar
+                                }
+
+                                Slider {
+                                    id: shifter
+                                    touchDragThreshold: 0
+                                    from: 1
+                                    to: choseAbcTab.currentIndex == 0 ? basicMaxShift : (choseAbcTab.currentIndex == 1 ? extMaxShift : customMaxShift)
+                                    stepSize: 1
+                                    enabled: activeWindow
                                     Layout.fillWidth: true
                                     Layout.fillHeight: true
+                                    Layout.leftMargin: 20
+                                    Layout.rightMargin: 20
+                                    value: 1
 
-                                    ColumnLayout {
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-                                        Layout.maximumHeight: 40
-                                        spacing: 0
+                                    background: Rectangle {
+                                        x: shifter.leftPadding
+                                        y: shifter.topPadding
+                                            + shifter.availableHeight / 2 - height / 2
+                                        implicitWidth: 200
+                                        implicitHeight: 6
+                                        width: shifter.availableWidth
+                                        height: implicitHeight
+                                        radius: 3
+                                        color: myBackground
 
-                                        Label {
-                                            Layout.fillHeight: true
-                                            Layout.fillWidth: true
-                                            text: textShift + shifter.value
-                                            font.pixelSize: 12
+                                        Rectangle {
+                                            width: shifter.visualPosition * parent.width
+                                            height: parent.height
+                                            color: myUpperBar
+                                            radius: 3
+                                        }
+                                    }
+
+                                    handle: Rectangle {
+                                        x: shifter.leftPadding + shifter.visualPosition
+                                            * (shifter.availableWidth - width)
+                                        y: shifter.topPadding
+                                            + shifter.availableHeight / 2 - height / 2
+                                        implicitWidth: 20
+                                        implicitHeight: 12
+                                        radius: 4
+                                        color: shifter.pressed ? myHighLighht : (shifter.hovered && activeWindow ? Qt.lighter(myBackground, 2) : myBackground)
+                                    }
+                                }
+                            }
+
+                            RowLayout {
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+                                Layout.maximumHeight: 50
+
+                                Label {
+                                    text: textSpaces
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    font.pixelSize: 12
+                                    horizontalAlignment: Text.AlignRight
+                                    verticalAlignment: Text.AlignVCenter
+                                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                    font.family: "Poppins Medium"
+                                    color: myUpperBar
+                                }
+
+                                TextField {
+                                    id: repSpaces
+                                    selectByMouse: true
+                                    color: myUpperBar
+                                    enabled: activeWindow
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.capitalization: choseAbcTab.currentIndex == 2 && keySensitive ? Font.MixedCase : Font.AllUppercase
+                                    font.family: "Poppins Medium"
+                                    placeholderTextColor: Qt.lighter(myUpperBar, 2)
+                                    placeholderText: repSpc
+                                    Layout.rightMargin: 40
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    Layout.maximumHeight: 24
+                                    Layout.minimumWidth: 40
+                                    Layout.maximumWidth: 120
+                                    background: Rectangle {
+                                        color: myBackground2
+                                        border.width: 1
+                                        border.color: Qt.darker(myBackground2, 1.1)
+                                        radius: 8
+                                    }
+                                }
+                            }
+
+                            RowLayout {
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+                                Layout.maximumHeight: 50
+
+                                Label {
+                                    text: textOutSpaces
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    font.pixelSize: 12
+                                    horizontalAlignment: Text.AlignRight
+                                    verticalAlignment: Text.AlignVCenter
+                                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                    font.family: "Poppins Medium"
+                                    color: myUpperBar
+                                }
+
+                                SpinBox {
+                                    id: spaceSpin
+                                    font.family: "Poppins Medium"
+                                    Layout.maximumWidth: 100
+                                    Layout.minimumWidth: 65
+                                    Layout.maximumHeight: 24
+                                    Layout.minimumHeight: 24
+                                    enabled: activeWindow
+                                    value: mySpaces
+                                    stepSize: 1
+                                    to: 99
+                                    from: 0
+                                    background: Rectangle {
+                                        color: myBackground2
+                                        border.color: Qt.darker(myBackground2, 1.1)
+                                        border.width: .5
+                                        anchors.fill: parent
+                                        radius: 8
+                                    }
+                                    down.indicator: Rectangle {
+                                        height: 20
+                                        width: 20
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.verticalCenterOffset: 0
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.leftMargin: 3
+                                        anchors.rightMargin: 44
+                                        radius: 8
+                                        color: spaceSpin.down.pressed ? myHighLighht : (spaceSpin.down.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
+                                                    myBackground2)
+
+                                        Rectangle {
+                                            width: 8
+                                            color: spaceSpin.down.pressed ? myHighLighht : (spaceSpin.down.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) : 
+                                                    myBackground2)
+                                            anchors.right: parent.right
+                                            anchors.top: parent.top
+                                            anchors.bottom: parent.bottom
+                                            anchors.topMargin: 0
+                                            anchors.bottomMargin: 0
+                                            anchors.rightMargin: 0
+                                        }
+
+                                        Text {
+                                            text: '❰'
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            anchors.horizontalCenter: parent.horizontalCenter
                                             horizontalAlignment: Text.AlignHCenter
                                             verticalAlignment: Text.AlignVCenter
+                                            padding: 0
+                                            font.pixelSize: 18
                                             font.family: "Poppins Medium"
-                                            color: myUpperBar
-                                        }
-
-                                        Slider {
-                                            id: shifter
-                                            touchDragThreshold: 0
-                                            from: 1
-                                            to: choseAbcTab.currentIndex == 0 ? basicMaxShift : (choseAbcTab.currentIndex == 1 ? extMaxShift : customMaxShift)
-                                            stepSize: 1
-                                            enabled: activeWindow
-                                            Layout.fillWidth: true
-                                            Layout.fillHeight: true
-                                            Layout.leftMargin: 20
-                                            Layout.rightMargin: 20
-                                            value: 1
-
-                                            background: Rectangle {
-                                                x: shifter.leftPadding
-                                                y: shifter.topPadding
-                                                   + shifter.availableHeight / 2 - height / 2
-                                                implicitWidth: 200
-                                                implicitHeight: 6
-                                                width: shifter.availableWidth
-                                                height: implicitHeight
-                                                radius: 3
-                                                color: myBackground
-
-                                                Rectangle {
-                                                    width: shifter.visualPosition * parent.width
-                                                    height: parent.height
-                                                    color: myUpperBar
-                                                    radius: 3
-                                                }
-                                            }
-
-                                            handle: Rectangle {
-                                                x: shifter.leftPadding + shifter.visualPosition
-                                                   * (shifter.availableWidth - width)
-                                                y: shifter.topPadding
-                                                   + shifter.availableHeight / 2 - height / 2
-                                                implicitWidth: 20
-                                                implicitHeight: 12
-                                                radius: 4
-                                                color: shifter.pressed ? myHighLighht : (shifter.hovered && activeWindow ? Qt.lighter(myBackground, 2) : myBackground)
-                                            }
+                                            font.weight: Font.Medium
                                         }
                                     }
 
-                                    RowLayout {
-                                        Layout.fillHeight: true
-                                        Layout.fillWidth: true
-                                        Layout.maximumHeight: 50
+                                    up.indicator: Rectangle {
+                                        height: 20
+                                        width: 20
+                                        radius: 8
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.verticalCenterOffset: 0
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.leftMargin: 44
+                                        anchors.rightMargin: 3
+                                        color: spaceSpin.up.pressed ? myHighLighht : (spaceSpin.up.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
+                                                    myBackground2)
 
-                                        Label {
-                                            text: textSpaces
-                                            Layout.fillHeight: true
-                                            Layout.fillWidth: true
-                                            font.pixelSize: 12
-                                            horizontalAlignment: Text.AlignRight
-                                            verticalAlignment: Text.AlignVCenter
-                                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                                            font.family: "Poppins Medium"
-                                            color: myUpperBar
+                                        Rectangle {
+                                            width: 8
+                                            color: spaceSpin.up.pressed ? myHighLighht : (spaceSpin.up.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
+                                                        myBackground2)
+                                            anchors.left: parent.left
+                                            anchors.top: parent.top
+                                            anchors.bottom: parent.bottom
+                                            anchors.bottomMargin: 0
+                                            anchors.leftMargin: 0
+                                            anchors.topMargin: 0
                                         }
 
-                                        TextField {
-                                            id: repSpaces
-                                            selectByMouse: true
-                                            color: myUpperBar
-                                            enabled: activeWindow
+                                        Text {
+                                            text: '❱'
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            anchors.horizontalCenter: parent.horizontalCenter
                                             horizontalAlignment: Text.AlignHCenter
-                                            font.capitalization: choseAbcTab.currentIndex == 2 && keySensitive ? Font.MixedCase : Font.AllUppercase
+                                            verticalAlignment: Text.AlignVCenter
+                                            padding: 0
+                                            font.pixelSize: 18
                                             font.family: "Poppins Medium"
-                                            placeholderTextColor: Qt.lighter(myUpperBar, 2)
-                                            placeholderText: repSpc
-                                            Layout.rightMargin: 40
-                                            Layout.fillHeight: true
-                                            Layout.fillWidth: true
-                                            Layout.maximumHeight: 24
-                                            Layout.minimumWidth: 40
-                                            Layout.maximumWidth: 120
-                                            background: Rectangle {
-                                                color: myBackground2
-                                                border.width: 1
-                                                border.color: Qt.darker(myBackground2, 1.1)
-                                                radius: 8
-                                            }
+                                            font.weight: Font.Medium
                                         }
                                     }
+                                }
 
-                                    RowLayout {
-                                        Layout.fillHeight: true
-                                        Layout.fillWidth: true
-                                        Layout.maximumHeight: 50
+                                Label {
+                                    text: textOutSpaces2
+                                    Layout.rightMargin: 20
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    font.pixelSize: 12
+                                    horizontalAlignment: Text.AlignLeft
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.family: "Poppins Medium"
+                                    color: myUpperBar
+                                }
+                            }
 
-                                        Label {
-                                            text: textOutSpaces
-                                            Layout.fillHeight: true
-                                            Layout.fillWidth: true
-                                            font.pixelSize: 12
-                                            horizontalAlignment: Text.AlignRight
-                                            verticalAlignment: Text.AlignVCenter
-                                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                                            font.family: "Poppins Medium"
-                                            color: myUpperBar
-                                        }
+                            ColumnLayout {
+                                spacing: 0
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
 
-                                        SpinBox {
-                                            id: spaceSpin
-                                            font.family: "Poppins Medium"
-                                            Layout.maximumWidth: 100
-                                            Layout.minimumWidth: 65
-                                            enabled: activeWindow
-                                            value: mySpaces
-                                            stepSize: 1
-                                            to: 99
-                                            from: 0
-                                            background: Rectangle {
-                                                color: myBackground2
-                                                border.color: Qt.darker(myBackground2, 1.1)
-                                                border.width: .5
-                                                anchors.fill: parent
-                                                radius: 8
-                                            }
-                                            down.indicator: Rectangle {
-                                                height: 20
-                                                width: 20
-                                                anchors.left: parent.left
-                                                anchors.right: parent.right
-                                                anchors.verticalCenter: parent.verticalCenter
-                                                anchors.leftMargin: 1
-                                                anchors.rightMargin: 44
-                                                radius: 8
-                                                color: spaceSpin.down.pressed ? myHighLighht : (spaceSpin.down.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
-                                                         myBackground2)
-
-                                                Rectangle {
-                                                    width: 8
-                                                    color: spaceSpin.down.pressed ? myHighLighht : (spaceSpin.down.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) : 
-                                                            myBackground2)
-                                                    anchors.right: parent.right
-                                                    anchors.top: parent.top
-                                                    anchors.bottom: parent.bottom
-                                                    anchors.topMargin: 0
-                                                    anchors.bottomMargin: 0
-                                                    anchors.rightMargin: 0
-                                                }
-
-                                                Text {
-                                                    text: '❰'
-                                                    anchors.verticalCenter: parent.verticalCenter
-                                                    anchors.horizontalCenter: parent.horizontalCenter
-                                                    horizontalAlignment: Text.AlignHCenter
-                                                    verticalAlignment: Text.AlignVCenter
-                                                    padding: 0
-                                                    font.pixelSize: 18
-                                                    font.family: "Poppins Medium"
-                                                    font.weight: Font.Medium
-                                                }
-                                            }
-
-                                            up.indicator: Rectangle {
-                                                height: 20
-                                                width: 20
-                                                radius: 8
-                                                anchors.left: parent.left
-                                                anchors.right: parent.right
-                                                anchors.verticalCenter: parent.verticalCenter
-                                                anchors.leftMargin: 44
-                                                anchors.rightMargin: 1
-                                                color: spaceSpin.up.pressed ? myHighLighht : (spaceSpin.up.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
-                                                         myBackground2)
-
-                                                Rectangle {
-                                                    width: 8
-                                                    color: spaceSpin.up.pressed ? myHighLighht : (spaceSpin.up.hovered && activeWindow ? Qt.darker(myBackground2, 1.25) :
-                                                             myBackground2)
-                                                    anchors.left: parent.left
-                                                    anchors.top: parent.top
-                                                    anchors.bottom: parent.bottom
-                                                    anchors.bottomMargin: 0
-                                                    anchors.leftMargin: 0
-                                                    anchors.topMargin: 0
-                                                }
-
-                                                Text {
-                                                    text: '❱'
-                                                    anchors.verticalCenter: parent.verticalCenter
-                                                    anchors.horizontalCenter: parent.horizontalCenter
-                                                    horizontalAlignment: Text.AlignHCenter
-                                                    verticalAlignment: Text.AlignVCenter
-                                                    padding: 0
-                                                    font.pixelSize: 18
-                                                    font.family: "Poppins Medium"
-                                                    font.weight: Font.Medium
-                                                }
-                                            }
-                                        }
-
-                                        Label {
-                                            text: textOutSpaces2
-                                            Layout.rightMargin: 20
-                                            Layout.fillHeight: true
-                                            Layout.fillWidth: true
-                                            font.pixelSize: 12
-                                            horizontalAlignment: Text.AlignLeft
-                                            verticalAlignment: Text.AlignVCenter
-                                            font.family: "Poppins Medium"
-                                            color: myUpperBar
-                                        }
+                                Button {
+                                    id: encButton
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    Layout.maximumHeight: 54
+                                    enabled: activeWindow && choseAbcTab.currentIndex < 2 ? true : 
+                                            (activeWindow && choseAbcTab.currentIndex == 2 && customLenght() > 8 ? true : false)
+                                    function customLenght(){
+                                        return customAlpha.length
                                     }
-
-                                    ColumnLayout {
-                                        spacing: 0
-                                        Layout.fillHeight: true
-                                        Layout.fillWidth: true
-
-                                        Button {
-                                            id: encButton
-                                            Layout.fillHeight: true
-                                            Layout.fillWidth: true
-                                            Layout.maximumHeight: 54
-                                            enabled: activeWindow && choseAbcTab.currentIndex < 2 ? true : 
-                                                    (activeWindow && choseAbcTab.currentIndex == 2 && customLenght() > 8 ? true : false)
+                                    background: Rectangle {
+                                        color: encButton.down ? myHighLighht : (encButton.hovered && activeWindow &&
+                                        (choseAbcTab.currentIndex < 2 || customLenght() > 8) ? Qt.lighter(myBackground, 2) : myBackground)
+                                        anchors.fill: parent
+                                        radius: 8
+                                        function customLenght(){
+                                            return customAlpha.length
+                                        }
+                                        Rectangle {
+                                            height: 8
+                                            color: encButton.down ? myHighLighht : (encButton.hovered && activeWindow && 
+                                                    (choseAbcTab.currentIndex < 2 || customLenght() > 8) ? Qt.lighter(myBackground, 2) : myBackground)
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
+                                            anchors.bottom: parent.bottom
+                                            anchors.rightMargin: 0
+                                            anchors.leftMargin: 0
+                                            anchors.bottomMargin: 0
                                             function customLenght(){
                                                 return customAlpha.length
                                             }
-                                            background: Rectangle {
-                                                color: encButton.down ? myHighLighht : (encButton.hovered && activeWindow &&
-                                                (choseAbcTab.currentIndex < 2 || customLenght() > 8) ? Qt.lighter(myBackground, 2) : myBackground)
-                                                anchors.fill: parent
-                                                radius: 8
-                                                function customLenght(){
-                                                    return customAlpha.length
-                                                }
-                                                Rectangle {
-                                                    height: 8
-                                                    color: encButton.down ? myHighLighht : (encButton.hovered && activeWindow && 
-                                                            (choseAbcTab.currentIndex < 2 || customLenght() > 8) ? Qt.lighter(myBackground, 2) : myBackground)
-                                                    anchors.left: parent.left
-                                                    anchors.right: parent.right
-                                                    anchors.bottom: parent.bottom
-                                                    anchors.rightMargin: 0
-                                                    anchors.leftMargin: 0
-                                                    anchors.bottomMargin: 0
-                                                    function customLenght(){
-                                                        return customAlpha.length
-                                                    }
-                                                }
-                                            }
+                                        }
+                                    }
 
 
-                                            Label {
-                                                text: textEncode
-                                                anchors.fill: parent
-                                                font.pixelSize: 12
-                                                horizontalAlignment: Text.AlignHCenter
-                                                verticalAlignment: Text.AlignVCenter
-                                                font.family: "Roboto Medium"
-                                                font.weight: Font.Medium
-                                                color: encButton.down ? myUpperBar : myWhiteFont
-                                                padding: 8
-                                            }
-                                            onClicked: {
-                                                var spcStr = repSpaces.text
-                                                if(choseAbcTab.currentIndex == 0){
-                                                    spcStr = spcStr.toUpperCase()
-                                                    if (repSpaces.text == "") {
+                                    Label {
+                                        text: textEncode
+                                        anchors.fill: parent
+                                        font.pixelSize: 12
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                        font.family: "Roboto Medium"
+                                        font.weight: Font.Medium
+                                        color: encButton.down ? myUpperBar : myWhiteFont
+                                        padding: 8
+                                    }
+                                    onClicked: {
+                                        var spcStr = repSpaces.text
+                                        if(choseAbcTab.currentIndex == 0){
+                                            spcStr = spcStr.toUpperCase()
+                                            if (repSpaces.text == "") {
+                                                spaceErr = false
+                                            } else {
+                                                for (var i = 0; i < spcStr.length; i++) {
+                                                    if (basicAlpha.search(spcStr[i] )< 0) {
+                                                        spaceErr = true
+                                                        winErr.show()
+                                                        break
+                                                    } else {
                                                         spaceErr = false
-                                                    } else {
-                                                        for (var i = 0; i < spcStr.length; i++) {
-                                                            if (basicAlpha.search(spcStr[i] )< 0) {
-                                                                spaceErr = true
-                                                                winErr.show()
-                                                                break
-                                                            } else {
-                                                                spaceErr = false
-                                                            }
-                                                        }
                                                     }
-                                                } else if (choseAbcTab.currentIndex == 1) {
-                                                    spcStr =spcStr.toUpperCase()
-                                                    if (repSpaces.text == "") {
-                                                        alphaErr = false
+                                                }
+                                            }
+                                        } else if (choseAbcTab.currentIndex == 1) {
+                                            spcStr =spcStr.toUpperCase()
+                                            if (repSpaces.text == "") {
+                                                alphaErr = false
+                                            } else {
+                                                for (var i = 0; i < spcStr.length; i++) {
+                                                    if (extAlpha.search(spcStr[i] )< 0) {
+                                                        spaceErr = true
+                                                        winErr.show()
+                                                        break
                                                     } else {
-                                                        for (var i = 0; i < spcStr.length; i++) {
-                                                            if (extAlpha.search(spcStr[i] )< 0) {
-                                                                spaceErr = true
-                                                                winErr.show()
-                                                                break
-                                                            } else {
-                                                                spaceErr = false
-                                                            }
+                                                        spaceErr = false
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if (repSpaces.text == "") {
+                                                spaceErr = false
+                                            } else if (keySensitive) {
+                                                for (var i = 0; i < spcStr.length; i++) {
+                                                    if (customAlpha.search(spcStr[i] )< 0) {
+                                                        spaceErr = true
+                                                        winErr.show()
+                                                        break
+                                                    } else {
+                                                        spaceErr = false
+                                                    }
+                                                }
+                                            } else {
+                                                spcStr = spcStr.toUpperCase()
+                                                for (var i = 0; i < spcStr.length; i++) {
+                                                    if (customAlpha.search(spcStr[i] )< 0) {
+                                                        spaceErr = true
+                                                        winErr.show()
+                                                        break
+                                                    } else {
+                                                        spaceErr = false
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (!spaceErr) {
+                                        
+                                            if (!inputErr) {
+                                                if (naiveModernTab.currentIndex == 0) {
+                                                    myData.getType(false)
+                                                } else {
+                                                    myData.getType(true)
+                                                }
+                                                if (choseAbcTab.currentIndex == 0) {
+                                                    myData.getAbc(basicAlpha)
+                                                } else if (choseAbcTab.currentIndex == 1) {
+                                                    myData.getAbc(extAlpha)
+                                                } else {
+                                                    myData.getAbc(customAlpha)
+                                                }
+                                                if (textFileTab.currentIndex == 0) {
+                                                    if(!inputText.text) {
+                                                        inputErr = true
+                                                        winErr.show()
+                                                        activeWindow = false
+                                                    } else {
+                                                        inputErr == false
+                                                        myData.getInputIndex(false)
+                                                        var myInput = inputText.text
+                                                        if (choseAbcTab < 2 || keySensitive == false) {
+                                                            myInput = myInput.toUpperCase()
                                                         }
+                                                        myData.getInput(myInput)
                                                     }
                                                 } else {
-                                                    if (repSpaces.text == "") {
-                                                        spaceErr = false
-                                                    } else if (keySensitive) {
-                                                        for (var i = 0; i < spcStr.length; i++) {
-                                                            if (customAlpha.search(spcStr[i] )< 0) {
-                                                                spaceErr = true
-                                                                winErr.show()
-                                                                break
-                                                            } else {
-                                                                spaceErr = false
-                                                            }
-                                                        }
+                                                    var inputFile = String(fileDialog.currentFile)
+                                                    if (!inputFile.length) {
+                                                        inputErr = true
+                                                        winErr.show()
+                                                        activeWindow= false
                                                     } else {
-                                                        spcStr = spcStr.toUpperCase()
-                                                        for (var i = 0; i < spcStr.length; i++) {
-                                                            if (customAlpha.search(spcStr[i] )< 0) {
-                                                                spaceErr = true
-                                                                winErr.show()
-                                                                break
-                                                            } else {
-                                                                spaceErr = false
-                                                            }
-                                                        }
+                                                        inputErr = false
+                                                        myData.getInputIndex(true)
+                                                        myData.getInput(fileDialog.currentFile)
                                                     }
                                                 }
-                                                if (!spaceErr) {
-                                                
-                                                    if (!inputErr) {
-                                                        if (naiveModernTab.currentIndex == 0) {
-                                                            myData.getType(false)
-                                                        } else {
-                                                            myData.getType(true)
-                                                        }
-                                                        if (choseAbcTab.currentIndex == 0) {
-                                                            myData.getAbc(basicAlpha)
-                                                        } else if (choseAbcTab.currentIndex == 1) {
-                                                            myData.getAbc(extAlpha)
-                                                        } else {
-                                                            myData.getAbc(customAlpha)
-                                                        }
-                                                        if (textFileTab.currentIndex == 0) {
-                                                            if(!inputText.text) {
-                                                                inputErr = true
-                                                                winErr.show()
-                                                                activeWindow = false
-                                                            } else {
-                                                                inputErr == false
-                                                                myData.getInputIndex(false)
-                                                                var myInput = inputText.text
-                                                                if (choseAbcTab < 2 || keySensitive == false) {
-                                                                    myInput = myInput.toUpperCase()
-                                                                }
-                                                                myData.getInput(myInput)
-                                                            }
-                                                        } else {
-                                                            var inputFile = String(fileDialog.currentFile)
-                                                            if (!inputFile.length) {
-                                                                inputErr = true
-                                                                winErr.show()
-                                                                activeWindow= false
-                                                            } else {
-                                                                inputErr = false
-                                                                myData.getInputIndex(true)
-                                                                myData.getInput(fileDialog.currentFile)
-                                                            }
-                                                        }
-                                                         
-                                                        if (openText.indexOf(spcStr) < 0 || spcStr == ""){
-                                                            repErr = false
-                                                            if (!inputErr){
-                                                                myData.getShift(shifter.value)
-                                                                myData.getRepSpaces(spcStr)
-                                                                myData.getOutputSpaces(spaceSpin.value)
-                                                                myData.encode()
-                                                                if (repairCount > 0) {
-                                                                    activeWindow = false
-                                                                    var component = Qt.createComponent("Repair.qml")
-                                                                    var win = component.createObject()
-                                                                    win.crComp()
-                                                                } else {
-                                                                    mySpaces = 5.0
-                                                                    abcList = ["a", "b"]
-                                                                    badChar = ["@", "&"]
-                                                                    inputFile = ""
-                                                                    winSol.show()
-                                                                    activeWindow = false
-                                                                    
-                                                                }
-                                                            }
-                                                        } else {
-                                                            openText = ""
-                                                            repErr = true
+                                                    
+                                                if (openText.indexOf(spcStr) < 0 || spcStr == ""){
+                                                    repErr = false
+                                                    if (!inputErr){
+                                                        myData.getShift(shifter.value)
+                                                        myData.getRepSpaces(spcStr)
+                                                        myData.getOutputSpaces(spaceSpin.value)
+                                                        myData.encode()
+                                                        if (repairCount > 0) {
                                                             activeWindow = false
-                                                            winErr.show()
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        WinSol {
-                                            id: winSol
-                                            visible: false
-                                        }
-
-                                        Button {
-                                            id: decButton
-                                            Layout.fillHeight: true
-                                            Layout.fillWidth: true
-                                            Layout.maximumHeight: 54
-                                            enabled: activeWindow && choseAbcTab.currentIndex < 2 ? true : 
-                                                    (activeWindow && choseAbcTab.currentIndex == 2 && customLenght() > 8 ? true : false)
-                                            function customLenght(){
-                                                return customAlpha.length
-                                            }
-                                            background: Rectangle {
-                                                color: decButton.down ? myHighLighht : (decButton.hovered && activeWindow && 
-                                                        (choseAbcTab.currentIndex < 2 || customLenght() > 8) ? Qt.lighter(myBackground, 2) : myBackground)
-                                                anchors.fill: parent
-                                                radius: 8
-                                                    function customLenght(){
-                                                    return customAlpha.length
-                                                }
-                                                Rectangle {
-                                                    height: 8
-                                                    color: decButton.down ? myHighLighht : (decButton.hovered && activeWindow && 
-                                                            (choseAbcTab.currentIndex < 2 || customLenght() > 8) ? Qt.lighter(myBackground, 2) : myBackground)
-                                                    anchors.left: parent.left
-                                                    anchors.right: parent.right
-                                                    anchors.top: parent.top
-                                                    anchors.rightMargin: 0
-                                                    anchors.leftMargin: 0
-                                                    anchors.topMargin: 0
-                                                    function customLenght(){
-                                                        return customAlpha.length
-                                                    }
-                                                }
-                                            }
-                                            Label {
-                                                text: textDecode
-                                                anchors.fill: parent
-                                                font.pixelSize: 12
-                                                horizontalAlignment: Text.AlignHCenter
-                                                verticalAlignment: Text.AlignVCenter
-                                                font.family: "Roboto Medium"
-                                                font.weight: Font.Medium
-                                                color: decButton.down ? myUpperBar : myWhiteFont
-                                                padding: 8
-                                            }
-                                            onClicked: {
-                                                var spcStr = repSpaces.text
-                                                if(choseAbcTab.currentIndex == 0){
-                                                    spcStr = spcStr.toUpperCase()
-                                                    if (repSpaces.text == "") {
-                                                        spaceErr = false
-                                                    } else {
-                                                        for (var i = 0; i < spcStr.length; i++) {
-                                                            if (basicAlpha.search(spcStr[i] )< 0) {
-                                                                spaceErr = true
-                                                                winErr.show()
-                                                                break
-                                                            } else {
-                                                                spaceErr = false
-                                                            }
-                                                        }
-                                                    }
-                                                } else if (choseAbcTab.currentIndex == 1) {
-                                                    spcStr =spcStr.toUpperCase()
-                                                    if (repSpaces.text == "") {
-                                                        alphaErr = false
-                                                    } else {
-                                                        for (var i = 0; i < spcStr.length; i++) {
-                                                            if (extAlpha.search(spcStr[i] )< 0) {
-                                                                spaceErr = true
-                                                                winErr.show()
-                                                                break
-                                                            } else {
-                                                                spaceErr = false
-                                                            }
-                                                        }
-                                                    }
-                                                } else {
-                                                    if (repSpaces.text == "") {
-                                                        spaceErr = false
-                                                    } else if (keySensitive) {
-                                                        for (var i = 0; i < spcStr.length; i++) {
-                                                            if (customAlpha.search(spcStr[i] )< 0) {
-                                                                spaceErr = true
-                                                                winErr.show()
-                                                                break
-                                                            } else {
-                                                                spaceErr = false
-                                                            }
-                                                        }
-                                                    } else {
-                                                        spcStr = spcStr.toUpperCase()
-                                                        for (var i = 0; i < spcStr.length; i++) {
-                                                            if (customAlpha.search(spcStr[i] )< 0) {
-                                                                spaceErr = true
-                                                                winErr.show()
-                                                                break
-                                                            } else {
-                                                                spaceErr = false
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                if (!spaceErr) {
-                                                
-                                                    if (!inputErr) {
-                                                        if (naiveModernTab.currentIndex == 0) {
-                                                            myData.getType(false)
+                                                            var component = Qt.createComponent("Repair.qml")
+                                                            var win = component.createObject()
+                                                            win.crComp()
                                                         } else {
-                                                            myData.getType(true)
-                                                        }
-                                                        if (choseAbcTab.currentIndex == 0) {
-                                                            myData.getAbc(basicAlpha)
-                                                        } else if (choseAbcTab.currentIndex == 1) {
-                                                            myData.getAbc(extAlpha)
-                                                        } else {
-                                                            myData.getAbc(customAlpha)
-                                                        }
-                                                        if (textFileTab.currentIndex == 0) {
-                                                            if(!inputText.text) {
-                                                                inputErr = true
-                                                                winErr.show()
-                                                                activeWindow = false
-                                                            } else {
-                                                                inputErr == false
-                                                                myData.getInputIndex(false)
-                                                                var myInput = inputText.text
-                                                                if (choseAbcTab < 2 || keySensitive == false) {
-                                                                    myInput = myInput.toUpperCase()
-                                                                }
-                                                                myData.getInput(myInput)
-                                                            }
-                                                        } else {
-                                                            var inputFile = String(fileDialog.currentFile)
-                                                            if (!inputFile.length) {
-                                                                inputErr = true
-                                                                winErr.show()
-                                                                activeWindow= false
-                                                            } else {
-                                                                inputErr = false
-                                                                myData.getInputIndex(true)
-                                                                myData.getInput(fileDialog.currentFile)
-                                                            }
-                                                        }
-                                                        if (!inputErr){
-                                                            myData.getShift(shifter.value)
-                                                            myData.getRepSpaces(spcStr)
-                                                            myData.getOutputSpaces(spaceSpin.value)
-                                                            myData.decode()
-                                                            winSol.show()
-                                                        
                                                             mySpaces = 5.0
                                                             abcList = ["a", "b"]
                                                             badChar = ["@", "&"]
                                                             inputFile = ""
+                                                            winSol.show()
                                                             activeWindow = false
-                                                        
+                                                            
                                                         }
+                                                    }
+                                                } else {
+                                                    openText = ""
+                                                    repErr = true
+                                                    activeWindow = false
+                                                    winErr.show()
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                WinSol {
+                                    id: winSol
+                                    visible: false
+                                }
+
+                                Button {
+                                    id: decButton
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    Layout.maximumHeight: 54
+                                    enabled: activeWindow && choseAbcTab.currentIndex < 2 ? true : 
+                                            (activeWindow && choseAbcTab.currentIndex == 2 && customLenght() > 8 ? true : false)
+                                    function customLenght(){
+                                        return customAlpha.length
+                                    }
+                                    background: Rectangle {
+                                        color: decButton.down ? myHighLighht : (decButton.hovered && activeWindow && 
+                                                (choseAbcTab.currentIndex < 2 || customLenght() > 8) ? Qt.lighter(myBackground, 2) : myBackground)
+                                        anchors.fill: parent
+                                        radius: 8
+                                            function customLenght(){
+                                            return customAlpha.length
+                                        }
+                                        Rectangle {
+                                            height: 8
+                                            color: decButton.down ? myHighLighht : (decButton.hovered && activeWindow && 
+                                                    (choseAbcTab.currentIndex < 2 || customLenght() > 8) ? Qt.lighter(myBackground, 2) : myBackground)
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
+                                            anchors.top: parent.top
+                                            anchors.rightMargin: 0
+                                            anchors.leftMargin: 0
+                                            anchors.topMargin: 0
+                                            function customLenght(){
+                                                return customAlpha.length
+                                            }
+                                        }
+                                    }
+                                    Label {
+                                        text: textDecode
+                                        anchors.fill: parent
+                                        font.pixelSize: 12
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                        font.family: "Roboto Medium"
+                                        font.weight: Font.Medium
+                                        color: decButton.down ? myUpperBar : myWhiteFont
+                                        padding: 8
+                                    }
+                                    onClicked: {
+                                        var spcStr = repSpaces.text
+                                        if(choseAbcTab.currentIndex == 0){
+                                            spcStr = spcStr.toUpperCase()
+                                            if (repSpaces.text == "") {
+                                                spaceErr = false
+                                            } else {
+                                                for (var i = 0; i < spcStr.length; i++) {
+                                                    if (basicAlpha.search(spcStr[i] )< 0) {
+                                                        spaceErr = true
+                                                        winErr.show()
+                                                        break
+                                                    } else {
+                                                        spaceErr = false
+                                                    }
+                                                }
+                                            }
+                                        } else if (choseAbcTab.currentIndex == 1) {
+                                            spcStr =spcStr.toUpperCase()
+                                            if (repSpaces.text == "") {
+                                                alphaErr = false
+                                            } else {
+                                                for (var i = 0; i < spcStr.length; i++) {
+                                                    if (extAlpha.search(spcStr[i] )< 0) {
+                                                        spaceErr = true
+                                                        winErr.show()
+                                                        break
+                                                    } else {
+                                                        spaceErr = false
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if (repSpaces.text == "") {
+                                                spaceErr = false
+                                            } else if (keySensitive) {
+                                                for (var i = 0; i < spcStr.length; i++) {
+                                                    if (customAlpha.search(spcStr[i] )< 0) {
+                                                        spaceErr = true
+                                                        winErr.show()
+                                                        break
+                                                    } else {
+                                                        spaceErr = false
+                                                    }
+                                                }
+                                            } else {
+                                                spcStr = spcStr.toUpperCase()
+                                                for (var i = 0; i < spcStr.length; i++) {
+                                                    if (customAlpha.search(spcStr[i] )< 0) {
+                                                        spaceErr = true
+                                                        winErr.show()
+                                                        break
+                                                    } else {
+                                                        spaceErr = false
                                                     }
                                                 }
                                             }
                                         }
-
-                                        WinErr {
-                                            id: winErr
-                                            visible: false
+                                        if (!spaceErr) {
+                                        
+                                            if (!inputErr) {
+                                                if (naiveModernTab.currentIndex == 0) {
+                                                    myData.getType(false)
+                                                } else {
+                                                    myData.getType(true)
+                                                }
+                                                if (choseAbcTab.currentIndex == 0) {
+                                                    myData.getAbc(basicAlpha)
+                                                } else if (choseAbcTab.currentIndex == 1) {
+                                                    myData.getAbc(extAlpha)
+                                                } else {
+                                                    myData.getAbc(customAlpha)
+                                                }
+                                                if (textFileTab.currentIndex == 0) {
+                                                    if(!inputText.text) {
+                                                        inputErr = true
+                                                        winErr.show()
+                                                        activeWindow = false
+                                                    } else {
+                                                        inputErr == false
+                                                        myData.getInputIndex(false)
+                                                        var myInput = inputText.text
+                                                        if (choseAbcTab < 2 || keySensitive == false) {
+                                                            myInput = myInput.toUpperCase()
+                                                        }
+                                                        myData.getInput(myInput)
+                                                    }
+                                                } else {
+                                                    var inputFile = String(fileDialog.currentFile)
+                                                    if (!inputFile.length) {
+                                                        inputErr = true
+                                                        winErr.show()
+                                                        activeWindow= false
+                                                    } else {
+                                                        inputErr = false
+                                                        myData.getInputIndex(true)
+                                                        myData.getInput(fileDialog.currentFile)
+                                                    }
+                                                }
+                                                if (!inputErr){
+                                                    myData.getShift(shifter.value)
+                                                    myData.getRepSpaces(spcStr)
+                                                    myData.getOutputSpaces(spaceSpin.value)
+                                                    myData.decode()
+                                                    winSol.show()
+                                                
+                                                    mySpaces = 5.0
+                                                    abcList = ["a", "b"]
+                                                    badChar = ["@", "&"]
+                                                    inputFile = ""
+                                                    activeWindow = false
+                                                
+                                                }
+                                            }
                                         }
                                     }
+                                }
+
+                                WinErr {
+                                    id: winErr
+                                    visible: false
                                 }
                             }
                         }
                     }
                 }
+
+                
+                
             }
         }
 
