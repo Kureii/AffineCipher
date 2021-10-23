@@ -1,5 +1,4 @@
 import GUI
-import circleDraw
 from Lang import cs_CZ
 
 
