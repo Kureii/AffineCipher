@@ -123,13 +123,17 @@ Window {
                                 onClicked: {
                                     winSol.close()
                                     shifter.value = 1
-                                    spaceSpin. value = 5
+                                    shifterA.value = 1
+                                    shifterB.value = 1
+                                    spaceSpin.value = 5
                                     repSpaces.text = ""
                                     keySensitive = false
                                     choseAbcTab.currentIndex = 0
                                     fileDialog.currentFile = ""
                                     inputText.text = ""
                                     fileState.text = textChoseFile
+                                    inputText2.text = ""
+                                    fileState2.text = textChoseFile
                                     textFileTab.currentIndex = 0
                                     customCircleBig.source = ""
                                     customCircle.source = ""
@@ -216,40 +220,139 @@ Window {
                         ScrollBar.vertical: ScrollBar {}
                     }
 
-                    Label {
-                        text: shiftText
-                        bottomPadding: 0
-                        topPadding: 4
-                        padding: 8
+                    StackLayout{
+                        currentIndex: naiveModernTab.currentIndex
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        font.family: "Poppins Medium"
-                        color:  myUpperBar
-                        Layout.minimumHeight: 18
-                    }
+
+                        ColumnLayout {
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+
+                            Label {
+                                text: shiftText
+                                bottomPadding: 0
+                                topPadding: 4
+                                padding: 8
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+                                font.family: "Poppins Medium"
+                                color:  myUpperBar
+                                Layout.minimumHeight: 18
+                            }
 
 
-                    Flickable {
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        Layout.minimumHeight: 32
-                        TextArea.flickable: TextArea {
-                            selectByMouse: true
-                            visible: true
-                            readOnly: true
-                            text: shifter.value
-                            color: myWhiteFont
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            wrapMode: Text.Wrap
-                            font.family: "Roboto Medium"
-                            background: Rectangle {
-                                color: myBackground
-                                radius: 8
+                            Flickable {
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+                                Layout.minimumHeight: 32
+                                TextArea.flickable: TextArea {
+                                    selectByMouse: true
+                                    visible: true
+                                    readOnly: true
+                                    text: shifter.value
+                                    color: myWhiteFont
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    wrapMode: Text.Wrap
+                                    font.family: "Roboto Medium"
+                                    background: Rectangle {
+                                        color: myBackground
+                                        radius: 8
+                                    }
+                                }
+
+                                ScrollBar.vertical: ScrollBar {}
                             }
                         }
 
-                        ScrollBar.vertical: ScrollBar {}
+                        RowLayout {
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+
+                            ColumnLayout {
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+
+                                Label {
+                                    text: "A:"
+                                    bottomPadding: 0
+                                    topPadding: 4
+                                    padding: 8
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    font.family: "Poppins Medium"
+                                    color:  myUpperBar
+                                    Layout.minimumHeight: 18
+                                }
+
+
+                                Flickable {
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    Layout.minimumHeight: 32
+                                    TextArea.flickable: TextArea {
+                                        selectByMouse: true
+                                        visible: true
+                                        readOnly: true
+                                        text: shifterA.value
+                                        color: myWhiteFont
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                        wrapMode: Text.Wrap
+                                        font.family: "Roboto Medium"
+                                        background: Rectangle {
+                                            color: myBackground
+                                            radius: 8
+                                        }
+                                    }
+
+                                    ScrollBar.vertical: ScrollBar {}
+                                }
+                            }
+
+                            
+                            ColumnLayout {
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+
+                                Label {
+                                    text: "B:"
+                                    bottomPadding: 0
+                                    topPadding: 4
+                                    padding: 8
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    font.family: "Poppins Medium"
+                                    color:  myUpperBar
+                                    Layout.minimumHeight: 18
+                                }
+
+
+                                Flickable {
+                                    Layout.fillHeight: true
+                                    Layout.fillWidth: true
+                                    Layout.minimumHeight: 32
+                                    TextArea.flickable: TextArea {
+                                        selectByMouse: true
+                                        visible: true
+                                        readOnly: true
+                                        text: shifterB.value
+                                        color: myWhiteFont
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                        wrapMode: Text.Wrap
+                                        font.family: "Roboto Medium"
+                                        background: Rectangle {
+                                            color: myBackground
+                                            radius: 8
+                                        }
+                                    }
+
+                                    ScrollBar.vertical: ScrollBar {}
+                                }
+                            }
+                        }
                     }
 
                     Label {

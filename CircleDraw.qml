@@ -270,8 +270,10 @@ Window {
                                             keySensitive = false
                                         }
                                         customAlpha = str
-                                        myDrawCircle.isUpper(keySens.checked)
-                                        myDrawCircle.myAlpha(alphabetInput.text)
+                                        if (naiveModernTab.currentIndex == 0) {
+                                            myDrawCircle.isUpper(keySens.checked)
+                                            myDrawCircle.myAlpha(alphabetInput.text)
+                                        }
                                         circleDraw.close()
                                         if(str.indexOf("\n")==-1){
                                             customMaxShift = str.length -1

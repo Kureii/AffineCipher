@@ -203,16 +203,40 @@ Window {
                                     output.push([container.children[i].children[0].children[1].currentIndex , container.children[i].children[0].children[2].currentIndex])
 
                                 }
-                                myData.repair(output)
-                                myData.encode()
-                                winSol.show()
+                                if (naiveModernTab.currentIndex == 0){
+                                    myData.repair(output)
+                                    myData.encode()
+                                    winSol.show()
 
-                                mySpaces = 5.0
-                                abcList = ["a", "b"]
-                                badChar = ["@", "&"]
-                                inputFile = ""
-                                repairCount = 0
-                                repair.destroy()
+                                    mySpaces = 5.0
+                                    abcList = ["a", "b"]
+                                    badChar = ["@", "&"]
+                                    inputFile = ""
+                                    repairCount = 0
+                                    repair.destroy()
+                                } else {
+                                    myData.repair(output)
+                                    var abcLen = customAlpha.length
+                                    for (var i = 0; i < 10; i++){
+                                        if (abcLen % shifterA.value == 0 && shifterA.value != 1) {
+                                            if (shifterA.stepSize == 1) {
+                                                shifterA.value += 1
+                                            } else {
+                                                shifterA.value += 2
+                                            }
+                                        } else {
+                                            break
+                                        }
+                                    }
+                                    myData.encode()
+                                    winSol.show()
+                                    repairCount = 0
+                                    abcList = ["a", "b"]
+                                    badChar = ["@", "&"]
+                                    inputFile = ""
+                                    
+                                    repair.destroy()
+                                }
                             }
                         }
                     }

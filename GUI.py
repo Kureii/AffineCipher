@@ -29,6 +29,8 @@ class GetData(QObject):
     myAbcList = []
     savePath = ""
     outText =""
+    myA = 0
+    myB = 0
 
     repCount = Signal(int)
     abcList = Signal(list)
@@ -58,11 +60,9 @@ class GetData(QObject):
                 File = myInput[7:]
             f = open(File, "r")
             myText = f.read()
-            print(myText)
             if self.Alpha.isupper():
                 myText = myText.upper()
             f.close()
-            print(myText)
 
             
         else:
@@ -93,6 +93,10 @@ class GetData(QObject):
     def getOutputSpaces(self, myOpSpc):
         self.OutSpc = myOpSpc
 
+    @Slot(int, int)
+    def getAB(self, a, b):
+        self.myA = a
+        self.myB = b
 
     @Slot()
     def encode(self):
@@ -122,7 +126,30 @@ class GetData(QObject):
                 self.illegalChars.emit(ilCh)
                 self.ilCh = ilCh
         else:
-            pass
+            self.ilCh = []
+            ilCh = Fce.IlChar(self.Alpha, self.Text)
+            indx = 0
+            for i in ilCh:
+                if i == " ":
+                    del ilCh[indx]
+                    break
+                indx += 1
+
+            if not ilCh:
+                self.finalAbc.emit(self.Alpha)
+                myText = self.Text
+                if not self.RepSpc:
+                    myText = myText.replace(" ", "")
+                self.openText.emit(myText)
+                self.outText = Fce.Modern(self.Alpha, self.Text, self.RepSpc, self.myA, self.myB, True, self.OutSpc).output
+                self.encodeText.emit(self.outText)
+            else:
+                self.openText.emit(self.Text)
+                self.repCount.emit(len(ilCh))
+                self.myAbcList = Fce.makeList(self.Alpha)
+                self.abcList.emit(self.myAbcList)
+                self.illegalChars.emit(ilCh)
+                self.ilCh = ilCh
 
     @Slot()
     def decode(self):
@@ -133,7 +160,10 @@ class GetData(QObject):
             self.openText.emit(self.outText)
             self.encodeText.emit(self.Text)
         else:
-            pass
+            self.finalAbc.emit(self.Alpha)
+            self.outText = Fce.Modern(self.Alpha, self.Text, self.RepSpc, self.myA, self.myB, False, self.OutSpc).output
+            self.openText.emit(self.outText)
+            self.encodeText.emit(self.Text)
 
     @Slot(list)
     def repair(self, myList):

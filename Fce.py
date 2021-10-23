@@ -32,7 +32,7 @@ def makeList(str):
 
 
 class Naive():
-    """Encode decode, naive addine cipher
+    """Encode decode, naive affine cipher
         Attributes:
             abc (str). alphabet
             string (str). input string
@@ -60,7 +60,7 @@ class Naive():
         self.encode = encode
 
         #Solve spaces encode / decode
-        self.spaceSolver() #ok
+        self.spaceSolver()
 
         #Make dict from string
         self.dicAbc = {}
@@ -147,6 +147,118 @@ class Naive():
             indexList.append(self.dicAbcInverse[i])
         self.indexList = indexList
     
+    def index2str(self,dic):
+        """Make string from indexList by dic"""
+        string = ""
+        for i in self.indexList:
+            string += dic[i]
+        self.output = string
+
+
+class Modern():
+    """Encode decode, naive addine cipher
+        Attributes:
+            abc (str). alphabet
+            string (str). input string
+            spacesStr (str): string that replaces spaces
+            a (int): number of a
+            b (int): number of b
+            encode (bool): True == encode, False == Decode
+    """
+    def __init__(self, abc, string, spacesStr, a, b, encode, myStep = 5):
+        
+        if not isinstance(abc, str):
+            raise Exception(f'{abc} is not string')
+        if not isinstance(string, str):
+            raise Exception(f'{string} is not string')
+        if not isinstance(spacesStr, str):
+            raise Exception(f'{spacesStr} is not string')
+        if not isinstance(a, int):
+            raise Exception(f'{a} is not int')
+        if not isinstance(b, int):
+            raise Exception(f'{b} is not int')
+        if not isinstance(encode, bool):
+            raise Exception(f'{encode} is not bool')
+
+        self.abc = abc
+        self.string = string 
+        self.spaceStr = spacesStr 
+        self.a = a
+        self.b = b
+        self.encode = encode
+        self.output = ""
+
+        # Make dict
+        self.dicAbc = {}
+        self.makeDict()
+
+        # Solve spaces
+        self.spaceSolver()
+
+        # From string to index list
+        self.indexList = []
+        self.str2index()
+
+        # encoding list
+        if encode:
+            self.myencode()
+        else:
+            self.mydecode()
+
+        self.dicAbcRev = {}
+        self.makeDictRev()
+
+
+        self.index2str(self.dicAbcRev)
+
+        if not encode:
+            self.spaceSolver(1)
+        else:
+            if myStep > 0:
+                self.output = Steps(self.output, myStep)
+
+
+
+    def makeDict(self):
+        """Make dictionary from string ('char index' : 'int key')"""
+        myDic = {}
+        for i in range(len(self.abc)):
+            myDic[self.abc[i]] = i
+        self.dicAbc = myDic
+
+    def makeDictRev(self):
+        """Make dictionary from string ('int key' : 'char index')"""
+        myDic = {}
+        for i in range(len(self.abc)):
+            myDic[i] = self.abc[i]
+        self.dicAbcRev = myDic
+
+    def spaceSolver(self, myPass = 0):
+        """Replace spaces by spaceStr"""
+        if self.encode:
+            self.string = self.string.replace(" ", self.spaceStr)
+        else:
+            if myPass == 0:
+                self.string = self.string.replace(" ", "")
+            else:
+                if self.spaceStr:
+                    self.output = self.output.replace(self.spaceStr, " ")
+
+    def str2index(self):
+        """Make indexList from string by dicAbc"""
+        indexList = []
+        for i in self.string:
+            indexList.append(self.dicAbc[i])
+        self.indexList = indexList
+    
+    def myencode(self): 
+        for i in range(len(self.indexList)):
+            self.indexList[i] = (self.a * self.indexList[i] + self.b) % len(self.abc)
+
+    def mydecode(self):
+        for i in range(len(self.indexList)):
+            self.indexList[i] = (self.indexList[i] - self.b)* pow(self.a, -1, len(self.abc)) % len(self.abc)
+        
     def index2str(self,dic):
         """Make string from indexList by dic"""
         string = ""
