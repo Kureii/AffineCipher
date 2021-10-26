@@ -29,6 +29,7 @@ cs_CZ = {
     'opTextErr' : 'Chyba vstupu',
     'noFileErr' : 'Chyba: Vstupní soubor chybí.',
     'noTextErr' : 'Chyba: Vstupní text chybí.',
+    'decodeErr' : 'Chyba: Neočekávaný znak ve vstupu.',
     'errRepeatChars' : 'Chyba: Symboly pro mezery se nacházejí v textu.', 
     'errSpc' : 'Překrývání',
     'alphaErr' : 'Mimo abecedu',

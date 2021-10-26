@@ -123,7 +123,7 @@ Window {
 
                     Label {
                         color: myCloseBtn
-                        text: inputErr? (textFileTab.currentIndex == 0 ? noTextErr : noFileErr) : (repErr ? errRepeatChars : noCharErr)
+                        text: inDecErr ? decodeErr : (inputErr? (textFileTab.currentIndex == 0 ? noTextErr : noFileErr) : (repErr ? errRepeatChars : noCharErr))
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.Wrap
@@ -144,6 +144,7 @@ Window {
                             winErr.close()
                             activeWindow = true
                             inputErr = false
+                            inDecErr = false
                         }
                         background: Rectangle {
                             anchors.fill: parent

@@ -43,6 +43,7 @@ Window {
     property string opTextErr: "Imput error"
     property string noFileErr: "Error: Input file missing." 
     property string noTextErr: "Error: Input text missing."
+    property string decodeErr: "Error: Unexpected char in input"
     property string errRepeatChars: "Error: space chars are in input text."
     property string errSpc: "Overlaying"
     property string alphaErr: "Alphabet overflow"
@@ -80,6 +81,7 @@ Window {
     property bool inputErr: false
     property bool spaceErr: false
     property bool repErr: false
+    property bool inDecErr: false
 
     readonly property color myUpperBar: "#1a1512"
     readonly property color myBackground: "#201e1b"
@@ -1808,7 +1810,39 @@ Window {
                                                         if (choseAbcTab < 2 || keySensitive == false) {
                                                             myInput = myInput.toUpperCase()
                                                         }
-                                                        myData.getInput(myInput)
+                                                        if (choseAbcTab.currentIndex == 0) {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!basicAlpha.includes(myInput[i]))  { 
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                        } else if (choseAbcTab.currentIndex == 1) {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!extAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                            myData.getAbc(extAlpha)
+                                                        } else {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!customAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                        }
+                                                        if(!inputErr) {myData.getInput(myInput)}
                                                     }
                                                 } else {
                                                     var inputFile = String(fileDialog.currentFile)
@@ -1819,7 +1853,39 @@ Window {
                                                     } else {
                                                         inputErr = false
                                                         myData.getInputIndex(true)
-                                                        myData.getInput(fileDialog.currentFile)
+                                                        if (choseAbcTab.currentIndex == 0) {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!basicAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                        } else if (choseAbcTab.currentIndex == 1) {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!extAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                            myData.getAbc(extAlpha)
+                                                        } else {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!customAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                        }
+                                                        if(!inputErr) {myData.getInput(fileDialog.currentFile)}
                                                     }
                                                 }
                                                 if (!inputErr){
@@ -2361,7 +2427,39 @@ Window {
                                                         if (choseAbcTab < 2 || keySensitive == false) {
                                                             myInput = myInput.toUpperCase()
                                                         }
-                                                        myData.getInput(myInput)
+                                                        if (choseAbcTab.currentIndex == 0) {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!basicAlpha.includes(myInput[i]))  { 
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                        } else if (choseAbcTab.currentIndex == 1) {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!extAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                            myData.getAbc(extAlpha)
+                                                        } else {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!customAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                        }
+                                                        if(!inputErr) {myData.getInput(myInput)}
                                                     }
                                                 } else {
                                                     var inputFile2 = String(fileDialog.currentFile)
@@ -2372,7 +2470,39 @@ Window {
                                                     } else {
                                                         inputErr = false
                                                         myData.getInputIndex(true)
-                                                        myData.getInput(fileDialog.currentFile)
+                                                        if (choseAbcTab.currentIndex == 0) {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!basicAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                        } else if (choseAbcTab.currentIndex == 1) {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!extAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                            myData.getAbc(extAlpha)
+                                                        } else {
+                                                            for (var i = 0; i < myInput.length; i++) {
+                                                                if (!customAlpha.includes(myInput[i]))  {   
+                                                                    inputErr = true
+                                                                    inDecErr = true
+                                                                    winErr.show()
+                                                                    activeWindow = false
+                                                                    break
+                                                                }
+                                                            }
+                                                        }
+                                                        if(!inputErr) {myData.getInput(fileDialog.currentFile)}
                                                     }
                                                 }
                                                 if (!inputErr){
