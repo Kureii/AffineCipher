@@ -123,7 +123,8 @@ class Naive():
                 self.string = self.string.replace(" ", "")
             else:
                 if self.spaceStr:
-                    self.output = self.output.replace(self.spaceStr, " ")
+                    self.output = self.output.replace(self.spaceStr, "\s")
+                    print("ok")
                     
                     
 

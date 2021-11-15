@@ -14,7 +14,7 @@ Window {
 
     flags: Qt.Window | Qt.WindowMinimizeButtonHint | Qt.FramelessWindowHint
 
-    property string windowTitle: "Tittle"
+    property string windowTitle: "Affine cipher"
     property string typeTitle: "Type"
     property string naive: "Naive"
     property string modern: "Modern"
@@ -1549,7 +1549,7 @@ Window {
                                         padding: 8
                                     }
                                     onClicked: {
-                                        var spcStr = repSpaces.text
+                                        let spcStr = repSpaces.text
                                         if(choseAbcTab.currentIndex == 0){
                                             spcStr = spcStr.toUpperCase()
                                             if (repSpaces.text == "") {
@@ -1726,7 +1726,7 @@ Window {
                                         padding: 8
                                     }
                                     onClicked: {
-                                        var spcStr = repSpaces.text
+                                        let spcStr = repSpaces.text
                                         if(choseAbcTab.currentIndex == 0){
                                             spcStr = spcStr.toUpperCase()
                                             if (repSpaces.text == "") {
@@ -1812,33 +1812,45 @@ Window {
                                                         }
                                                         if (choseAbcTab.currentIndex == 0) {
                                                             for (var i = 0; i < myInput.length; i++) {
-                                                                if (!basicAlpha.includes(myInput[i]))  { 
-                                                                    inputErr = true
-                                                                    inDecErr = true
-                                                                    winErr.show()
-                                                                    activeWindow = false
-                                                                    break
+                                                                if (!basicAlpha.includes(myInput[i]))  {
+                                                                    if(myInput[i] == " ") {
+                                                                        continue
+                                                                    } else {
+                                                                        inputErr = true
+                                                                        inDecErr = true
+                                                                        winErr.show()
+                                                                        activeWindow = false
+                                                                        break
+                                                                    }
                                                                 }
                                                             }
                                                         } else if (choseAbcTab.currentIndex == 1) {
                                                             for (var i = 0; i < myInput.length; i++) {
-                                                                if (!extAlpha.includes(myInput[i]))  {   
-                                                                    inputErr = true
-                                                                    inDecErr = true
-                                                                    winErr.show()
-                                                                    activeWindow = false
-                                                                    break
+                                                                if (!extAlpha.includes(myInput[i]))  { 
+                                                                    if(myInput[i] == " ") {
+                                                                        continue
+                                                                    } else {  
+                                                                        inputErr = true
+                                                                        inDecErr = true
+                                                                        winErr.show()
+                                                                        activeWindow = false
+                                                                        break
+                                                                    }
                                                                 }
                                                             }
                                                             myData.getAbc(extAlpha)
                                                         } else {
                                                             for (var i = 0; i < myInput.length; i++) {
-                                                                if (!customAlpha.includes(myInput[i]))  {   
-                                                                    inputErr = true
-                                                                    inDecErr = true
-                                                                    winErr.show()
-                                                                    activeWindow = false
-                                                                    break
+                                                                if (!customAlpha.includes(myInput[i]))  {
+                                                                    if(myInput[i] == " ") {
+                                                                        continue
+                                                                    } else {
+                                                                        inputErr = true
+                                                                        inDecErr = true
+                                                                        winErr.show()
+                                                                        activeWindow = false
+                                                                        break
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -2165,7 +2177,7 @@ Window {
                                         padding: 8
                                     }
                                     onClicked: {
-                                        var spcStr = repSpaces.text
+                                        let spcStr = repSpaces2.text
                                         if(choseAbcTab.currentIndex == 0){
                                             spcStr = spcStr.toUpperCase()
                                             if (repSpaces.text == "") {
@@ -2343,7 +2355,7 @@ Window {
                                         padding: 8
                                     }
                                     onClicked: {
-                                        var spcStr = repSpaces.text
+                                        let spcStr = repSpaces2.text
                                         if(choseAbcTab.currentIndex == 0){
                                             spcStr = spcStr.toUpperCase()
                                             if (repSpaces.text == "") {
@@ -2429,33 +2441,45 @@ Window {
                                                         }
                                                         if (choseAbcTab.currentIndex == 0) {
                                                             for (var i = 0; i < myInput.length; i++) {
-                                                                if (!basicAlpha.includes(myInput[i]))  { 
-                                                                    inputErr = true
-                                                                    inDecErr = true
-                                                                    winErr.show()
-                                                                    activeWindow = false
-                                                                    break
+                                                                if (!basicAlpha.includes(myInput[i]))  {  
+                                                                    if(myInput[i] == " ") {
+                                                                        continue
+                                                                    } else { 
+                                                                        inputErr = true
+                                                                        inDecErr = true
+                                                                        winErr.show()
+                                                                        activeWindow = false
+                                                                        break
+                                                                    }
                                                                 }
                                                             }
                                                         } else if (choseAbcTab.currentIndex == 1) {
                                                             for (var i = 0; i < myInput.length; i++) {
-                                                                if (!extAlpha.includes(myInput[i]))  {   
-                                                                    inputErr = true
-                                                                    inDecErr = true
-                                                                    winErr.show()
-                                                                    activeWindow = false
-                                                                    break
+                                                                if (!extAlpha.includes(myInput[i]))  { 
+                                                                    if(myInput[i] == " ") {
+                                                                        continue
+                                                                    } else {  
+                                                                        inputErr = true
+                                                                        inDecErr = true
+                                                                        winErr.show()
+                                                                        activeWindow = false
+                                                                        break
+                                                                    }
                                                                 }
                                                             }
                                                             myData.getAbc(extAlpha)
                                                         } else {
                                                             for (var i = 0; i < myInput.length; i++) {
-                                                                if (!customAlpha.includes(myInput[i]))  {   
-                                                                    inputErr = true
-                                                                    inDecErr = true
-                                                                    winErr.show()
-                                                                    activeWindow = false
-                                                                    break
+                                                                if (!customAlpha.includes(myInput[i]))  {
+                                                                    if(myInput[i] == " ") {
+                                                                        continue
+                                                                    } else { 
+                                                                        inputErr = true
+                                                                        inDecErr = true
+                                                                        winErr.show()
+                                                                        activeWindow = false
+                                                                        break
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -2472,33 +2496,45 @@ Window {
                                                         myData.getInputIndex(true)
                                                         if (choseAbcTab.currentIndex == 0) {
                                                             for (var i = 0; i < myInput.length; i++) {
-                                                                if (!basicAlpha.includes(myInput[i]))  {   
-                                                                    inputErr = true
-                                                                    inDecErr = true
-                                                                    winErr.show()
-                                                                    activeWindow = false
-                                                                    break
+                                                                if (!basicAlpha.includes(myInput[i]))  {  
+                                                                    if(myInput[i] == " ") {
+                                                                        continue
+                                                                    } else { 
+                                                                        inputErr = true
+                                                                        inDecErr = true
+                                                                        winErr.show()
+                                                                        activeWindow = false
+                                                                        break
+                                                                    }
                                                                 }
                                                             }
                                                         } else if (choseAbcTab.currentIndex == 1) {
                                                             for (var i = 0; i < myInput.length; i++) {
-                                                                if (!extAlpha.includes(myInput[i]))  {   
-                                                                    inputErr = true
-                                                                    inDecErr = true
-                                                                    winErr.show()
-                                                                    activeWindow = false
-                                                                    break
+                                                                if (!extAlpha.includes(myInput[i]))  { 
+                                                                    if(myInput[i] == " ") {
+                                                                        continue
+                                                                    } else {
+                                                                        inputErr = true
+                                                                        inDecErr = true
+                                                                        winErr.show()
+                                                                        activeWindow = false
+                                                                        break
+                                                                    }
                                                                 }
                                                             }
                                                             myData.getAbc(extAlpha)
                                                         } else {
                                                             for (var i = 0; i < myInput.length; i++) {
-                                                                if (!customAlpha.includes(myInput[i]))  {   
-                                                                    inputErr = true
-                                                                    inDecErr = true
-                                                                    winErr.show()
-                                                                    activeWindow = false
-                                                                    break
+                                                                if (!customAlpha.includes(myInput[i]))  { 
+                                                                    if(myInput[i] == " ") {
+                                                                        continue
+                                                                    } else {  
+                                                                        inputErr = true
+                                                                        inDecErr = true
+                                                                        winErr.show()
+                                                                        activeWindow = false
+                                                                        break
+                                                                    }
                                                                 }
                                                             }
                                                         }

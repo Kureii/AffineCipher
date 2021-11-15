@@ -127,6 +127,7 @@ Window {
                                     shifterB.value = 1
                                     spaceSpin.value = 5
                                     repSpaces.text = ""
+                                    repSpaces2.text = ""
                                     keySensitive = false
                                     choseAbcTab.currentIndex = 0
                                     fileDialog.currentFile = ""
